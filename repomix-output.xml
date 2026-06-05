@@ -1,0 +1,2142 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.gitignore
+AGENTS.md
+CLAUDE.md
+eslint.config.mjs
+next.config.ts
+package.json
+postcss.config.mjs
+public/4biz_logo-1.avif
+public/4biz_logo-2.png
+public/4biz-hero-1.jpeg
+public/4biz-hero-2.jpeg
+public/documents/4biz-international-company-profile.pdf
+public/images/4biz_logo.avif
+public/images/4biz_logo.png
+public/images/4biz-hero-2.jpeg
+public/images/girl1.avif
+public/images/hero_banner_image.avif
+public/images/hero_banner_image.png
+public/images/hero-background-1.png
+public/images/hero-background-2.png
+public/images/home-page-image-1.png
+public/images/home-page-image-2.png
+public/images/itplanet.avif
+public/images/legacy.avif
+public/images/services/4bizerpsolutions.avif
+public/images/services/branding.avif
+public/images/services/cmssoftware.avif
+public/images/services/contentmarketing.avif
+public/images/services/crmsoftware.avif
+public/images/services/domainandhosting.avif
+public/images/services/emailandsmsmarketing.avif
+public/images/services/itinfrastructure.avif
+public/images/services/microsoftdynamic365.avif
+public/images/services/mobileappdevelopment.avif
+public/images/services/photoshootandvideoshoot.avif
+public/images/services/seo.avif
+public/images/services/socialmediamrketing.avif
+public/images/services/webdevelopment.avif
+README.md
+src/app/api/chat/route.ts
+src/app/globals.css
+src/app/layout.tsx
+src/app/page.tsx
+src/components/AIChatButton.tsx
+src/components/AIChatWindow.tsx
+src/components/Footer.tsx
+src/components/Header.tsx
+src/components/Hero.tsx
+src/components/LeftFixedSocialIcons.tsx
+src/components/Services.tsx
+src/components/WhatsAppButton.tsx
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="src/app/api/chat/route.ts">
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { NextResponse } from "next/server";
+
+export async function POST(req: Request) {
+  const { message } = await req.json();
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+  try {
+    const result = await model.generateContent(message);
+    const response = await result.response;
+    return NextResponse.json({ reply: response.text() });
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to fetch response" }, { status: 500 });
+  }
+}
+</file>
+
+<file path="src/app/globals.css">
+@import "tailwindcss";
+</file>
+
+<file path="src/app/layout.tsx">
+import type { Metadata } from "next";
+import "@/app/globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import AIChatButton from "@/components/AIChatButton";
+import WhatsAppButton from "@/components/WhatsAppButton";
+
+export const metadata: Metadata = {
+  title: "4Biz International LLC | Digital Marketing Agency in Dubai",
+  description: "4Biz International is a trusted digital marketing agency in Dubai offering SEO, web development, CRM solutions and business growth services.",
+  // We are removing 'icons' from here to avoid conflicts
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" className="bg-black text-white">
+            <head>
+        <meta name="robots" content="index, follow"></meta>
+        <link rel="icon" type="image/png" href="/images/4biz_logo.avif" />
+        <link rel="apple-touch-icon" href="/images/4biz_logo.avif" />
+        <link rel="shortcut icon" href="/images/4biz_logo.avif" />
+      </head>
+      <body className="bg-black relative w-full overflow-x-hidden">
+        
+        {/* Fixed Global UI Elements */}
+        <Header />
+        
+        {/* Floating Utilities */}
+        <AIChatButton />
+        <WhatsAppButton />
+
+        <main className="relative z-10 w-full min-h-screen">
+          {children}
+        </main>
+        
+        <Footer />
+
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="src/app/page.tsx">
+'use client';
+
+import React from 'react';
+import Hero from '@/components/Hero';
+import Services from '@/components/Services';
+
+export default function Home() {
+  return (
+    <main className="relative min-h-screen w-full bg-black">
+      <Hero />
+      <Services />
+      
+    </main>
+  );
+}
+</file>
+
+<file path="src/components/AIChatButton.tsx">
+"use client";
+
+import React, { useState } from 'react';
+import AIChatWindow from './AIChatWindow';
+
+const AIChatButton = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <AIChatWindow isOpen={isOpen} onClose={() => setIsOpen(false)} />
+
+      {/*
+        STACK ORDER (bottom-right corner, vertical):
+        • WhatsApp  → bottom: 80px  (above AI)
+        • AI Chat   → bottom: 20px  (lowest, at very bottom)
+        Chat window opens upward from AI button top edge:
+        AI top = 20 + 48 = 68px, + 12px gap = bottom: 80px for window
+      */}
+      <div
+        className="fixed z-[999998] hover:z-[1000000] flex flex-row-reverse items-center pointer-events-none group transform-gpu"
+        style={{ bottom: '20px', right: '20px' }}
+      >
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="ai-orb pointer-events-auto will-change-transform relative flex items-center justify-center"
+          aria-label="Toggle AI Chat"
+          style={{ width: 48, height: 48 }}
+        >
+          {/* Pulsing rings */}
+          <span className="ai-ring ai-ring-1" />
+          <span className="ai-ring ai-ring-2" />
+
+          {/* Chromatic spinning core */}
+          <span className="ai-orb-core" />
+
+          {/* Inner radial glow */}
+          <span className="ai-inner-glow" />
+
+          {/* Gloss */}
+          <span style={{
+            position: 'absolute', inset: 0, borderRadius: '50%',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.26) 0%, transparent 52%)',
+            zIndex: 10, pointerEvents: 'none',
+          }} />
+
+          {/* Original AI SVG icon - Exact copy from JSX */}
+          <svg viewBox="0 0 100 100"
+            style={{ width: 32, height: 32, position: 'relative', zIndex: 20, transition: 'transform 0.5s', flexShrink: 0 }}
+            className="group-hover:scale-110">
+            <circle cx="28" cy="32" r="4.5" fill="white"/>
+            <line x1="28" x2="42" y1="32" y2="48" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+            <path d="M50 42c-15 0-27 12-27 27s12 27 27 27 27-12 27-27-12-27-27-27z" fill="white"/>
+            <path d="M32 65c0-4 3-8 8-8h20c5 0 8 4 8 8v5c0 4-3 8-8 8H40c-5 0-8-4-8-8v-5z" fill="#03030b"/>
+            <path d="M40 68c2-2 5-2 7 0M53 68c2-2 5-2 7 0" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
+            <path d="M44 85c0 3 3 6 6 6s6-3 6-6" stroke="#ef29de" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+            <path d="M64 28h18c3 0 5 2 5 5v12c0 3-2 5-5 5h-4l-1 6-5-6h-8c-3 0-5-2-5-5V33c0-3 2-5 5-5z" fill="white"/>
+          </svg>
+        </button>
+
+        {/* Tooltip — desktop only, slides in from right */}
+        <div className="hidden lg:flex items-center mr-4 px-4 py-2 bg-[#03030b]/88 backdrop-blur-xl border border-white/[0.08] rounded-xl text-white text-[10px] font-bold uppercase tracking-[0.32em] opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-400 ease-out pointer-events-none whitespace-nowrap"
+          style={{ boxShadow: '0 0 24px rgba(239,41,222,0.22)' }}>
+          <span className="relative flex h-2 w-2 mr-3 flex-shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#ef29de' }}></span>
+            <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: 'linear-gradient(135deg,#ef29de,#5bdefc)' }}></span>
+          </span>
+          AI Assistant
+        </div>
+      </div>
+
+      <style jsx global>{`
+        .ai-orb {
+          border-radius: 50%;
+          contain: layout paint;
+          cursor: pointer;
+          transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .ai-orb:hover { transform: scale(1.16) translateY(-3px); }
+
+        .ai-orb-core {
+          position: absolute; inset: 0; border-radius: 50%; z-index: 1;
+          background: conic-gradient(from 0deg,
+            #5bdefc 0deg,
+            #ef29de 120deg,
+            #5bdefc 240deg,
+            #ef29de 360deg
+          );
+          animation: ai-spin 5s linear infinite, ai-brightness 3s ease-in-out infinite alternate;
+          box-shadow:
+            0 0 16px rgba(239,41,222,0.65),
+            0 0 32px rgba(91,222,252,0.28),
+            inset 0 0 12px rgba(0,0,0,0.65);
+        }
+        @keyframes ai-spin { to { transform: rotate(360deg); } }
+        @keyframes ai-brightness {
+          0%   { filter: brightness(0.9) saturate(1.1); }
+          100% { filter: brightness(1.2) saturate(1.4); }
+        }
+
+        .ai-inner-glow {
+          position: absolute; inset: 5px; border-radius: 50%; z-index: 5; pointer-events: none;
+          background: radial-gradient(circle at 38% 33%,
+            rgba(91,222,252,0.5) 0%,
+            rgba(239,41,222,0.3) 50%,
+            transparent 100%
+          );
+          animation: ai-glow 3.5s ease-in-out infinite alternate;
+        }
+        @keyframes ai-glow {
+          0%   { opacity: 0.55; transform: scale(0.9); }
+          100% { opacity: 1;    transform: scale(1.08); }
+        }
+
+        .ai-ring {
+          position: absolute; border-radius: 50%;
+          border: 1px solid transparent; pointer-events: none;
+        }
+        .ai-ring-1 { inset: -3px; border-color: rgba(239,41,222,0.55); animation: ai-pulse-ring 2.8s ease-out infinite; }
+        .ai-ring-2 { inset: -3px; border-color: rgba(91,222,252,0.40); animation: ai-pulse-ring 2.8s ease-out infinite 1.4s; }
+        @keyframes ai-pulse-ring {
+          0%   { transform: scale(1);   opacity: 0.85; }
+          100% { transform: scale(2.5); opacity: 0; }
+        }
+      `}</style>
+    </>
+  );
+};
+
+export default AIChatButton;
+</file>
+
+<file path="src/components/AIChatWindow.tsx">
+"use client";
+
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+/* ─── Quick-access suggestion chips ─── */
+const SUGGESTIONS = [
+  "What services do you offer?",
+  "Tell me about Microsoft Dynamics 365",
+  "How can I contact 4Biz?",
+  "SEO & Digital Marketing",
+];
+
+/* ─── Animated bot avatar ─── */
+const BotAvatar = () => (
+  <div style={{
+    width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
+    background: 'conic-gradient(from 0deg, #5bdefc, #ef29de, #5bdefc)',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    boxShadow: '0 0 12px rgba(91,222,252,0.5)',
+    animation: 'spin-avatar 6s linear infinite',
+    position: 'relative',
+  }}>
+    <div style={{
+      width: 22, height: 22, borderRadius: '50%',
+      background: '#030712',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <svg viewBox="0 0 20 20" width="12" height="12">
+        <circle cx="6" cy="7" r="1.5" fill="#5bdefc"/>
+        <line x1="6" x2="9" y1="7" y2="10" stroke="#5bdefc" strokeWidth="1.2" strokeLinecap="round"/>
+        <path d="M10 9c-3 0-5 2.5-5 5.5s2 5.5 5 5.5 5-2.5 5-5.5-2-5.5-5-5.5z" fill="white"/>
+        <path d="M7 13.5c0-1 .8-1.8 1.8-1.8h2.4c1 0 1.8.8 1.8 1.8v1c0 1-.8 1.8-1.8 1.8H8.8c-1 0-1.8-.8-1.8-1.8v-1z" fill="#030712"/>
+        <path d="M14 5.5h3c.7 0 1.2.5 1.2 1.2v2.6c0 .7-.5 1.2-1.2 1.2h-.8l-.2 1.3-1.1-1.3h-1.6c-.7 0-1.2-.5-1.2-1.2V6.7c0-.7.5-1.2 1.2-1.2z" fill="white"/>
+      </svg>
+    </div>
+  </div>
+);
+
+/* ─── Typing indicator ─── */
+const TypingDots = () => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 2px' }}>
+    {[0, 1, 2].map(i => (
+      <span key={i} style={{
+        width: 6, height: 6, borderRadius: '50%',
+        background: 'linear-gradient(135deg, #5bdefc, #ef29de)',
+        display: 'inline-block',
+        animation: `typing-dot 1.2s ease-in-out infinite`,
+        animationDelay: `${i * 0.2}s`,
+      }} />
+    ))}
+    <span style={{ fontSize: 10, color: 'rgba(91,222,252,0.6)', fontFamily: 'monospace', letterSpacing: '0.1em', marginLeft: 4 }}>
+      Neural processing…
+    </span>
+  </div>
+);
+
+/* ─── Single message bubble ─── */
+const MessageBubble = ({ msg, isLatest }: { msg: { role: string; text: string }; isLatest: boolean }) => {
+  const isBot = msg.role === 'bot';
+  return (
+    <div style={{
+      display: 'flex',
+      justifyContent: isBot ? 'flex-start' : 'flex-end',
+      alignItems: 'flex-end',
+      gap: 8,
+      animation: isLatest ? 'msg-in 0.32s cubic-bezier(0.34,1.4,0.64,1) both' : 'none',
+    }}>
+      {isBot && <BotAvatar />}
+      <div style={{
+        maxWidth: '78%',
+        padding: '11px 15px',
+        borderRadius: isBot ? '4px 18px 18px 18px' : '18px 4px 18px 18px',
+        fontSize: 13,
+        lineHeight: 1.65,
+        letterSpacing: '0.01em',
+        color: isBot ? 'rgba(255,255,255,0.92)' : '#ffffff',
+        background: isBot
+          ? 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(91,222,252,0.07) 100%)'
+          : 'linear-gradient(135deg, #ef29de 0%, #7c3aed 50%, #5bdefc 100%)',
+        border: isBot ? '1px solid rgba(91,222,252,0.12)' : 'none',
+        boxShadow: isBot
+          ? '0 2px 20px rgba(91,222,252,0.06), inset 0 1px 0 rgba(255,255,255,0.05)'
+          : '0 4px 24px rgba(239,41,222,0.35)',
+        whiteSpace: 'pre-wrap',
+        wordBreak: 'break-word',
+      }}>
+        {msg.text}
+      </div>
+    </div>
+  );
+};
+
+const SYSTEM_PROMPT = `
+You are the official AI Assistant for 4Biz International LLC (https://4bizinternational.com/).
+
+CORE DIRECTIVE:
+- Learn and promote services found at: https://4bizinternational.com/services.html
+- Services include: Microsoft Dynamics 365 (CRM/ERP), SEO, Web Design & Development, Mobile App Development, Social Media Marketing, Domain & Hosting, Branding, and Photoshoots/Videoshoots.
+- Products: Microsoft Licenses, Google Workspace, Zoho Solutions, custom Applications.
+- Location: Office 104, Crystal Building, Al Karama, Dubai, UAE.
+- Contact: info@4bizinternational.com | +971 52 792 5100.
+
+FORMATTING RULES:
+- NEVER use markdown bolding (**) or headers (###).
+- Use plain text only.
+- For lists, use simple bullet points (•) with clear indentation.
+- Keep messages concise and professional.
+- Ensure every response feels clean and aligned.
+- Max 5 sentences per response unless a detailed list is necessary.
+`;
+
+const AIChatWindow = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const [isThinking, setIsThinking] = useState(false);
+  const [messages, setMessages] = useState([
+    { role: "bot", text: "Hello! I'm the 4Biz AI Assistant. How can I help you with our IT or Digital Marketing solutions today?" }
+  ]);
+  const [input, setInput] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rafRef = useRef<number | null>(null);
+
+  /* auto-scroll */
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
+    }
+  }, [messages, isThinking]);
+
+  /* focus input on open */
+  useEffect(() => {
+    if (isOpen && inputRef.current) setTimeout(() => inputRef.current?.focus(), 120);
+  }, [isOpen]);
+
+  /* Header canvas — deep-sea sonar pulse */
+  useEffect(() => {
+    if (!isOpen) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const W = canvas.offsetWidth || 520, H = canvas.offsetHeight || 72;
+    canvas.width = W; canvas.height = H;
+
+    let t = 0;
+    const stars = Array.from({ length: 40 }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 1.2, op: Math.random(),
+      speed: Math.random() * 0.008 + 0.003,
+    }));
+    const fish = Array.from({ length: 4 }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.15,
+      size: Math.random() * 3 + 2,
+      color: Math.random() > 0.5 ? '91,222,252' : '239,41,222',
+    }));
+
+    const tick = () => {
+      ctx.clearRect(0, 0, W, H);
+      t += 0.015;
+
+      stars.forEach(s => {
+        s.op = 0.15 + 0.55 * Math.abs(Math.sin(t * s.speed * 40 + s.x));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(180,200,255,${s.op * 0.55})`;
+        ctx.fill();
+      });
+
+      const pulse = (t * 0.5) % 1;
+      const pr = pulse * Math.max(W, H) * 0.7;
+      ctx.beginPath();
+      ctx.arc(W * 0.85, H * 0.5, pr, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(91,222,252,${(1 - pulse) * 0.12})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      fish.forEach(f => {
+        f.x += f.vx; f.y += f.vy;
+        if (f.x < -10) f.x = W + 10;
+        if (f.x > W + 10) f.x = -10;
+        if (f.y < 2) f.vy = Math.abs(f.vy);
+        if (f.y > H - 2) f.vy = -Math.abs(f.vy);
+        ctx.save();
+        ctx.translate(f.x, f.y);
+        ctx.scale(f.vx < 0 ? -1 : 1, 1);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, f.size * 2, f.size * 0.8, 0, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${f.color},0.35)`;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [isOpen]);
+
+  const handleSend = useCallback(async (text?: string) => {
+    const msg = (text || input).trim();
+    if (!msg || isThinking) return;
+    setShowSuggestions(false);
+    setMessages(prev => [...prev, { role: 'user', text: msg }]);
+    setInput('');
+    setIsThinking(true);
+
+    try {
+      const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+      if (!apiKey) throw new Error("API Key missing");
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({
+        model: 'gemini-flash-latest',
+        systemInstruction: SYSTEM_PROMPT,
+      });
+      const result = await model.generateContent(msg);
+      const response = await result.response;
+      setMessages(prev => [...prev, { role: 'bot', text: response.text() }]);
+    } catch {
+      setMessages(prev => [...prev, { role: 'bot', text: "I'm having a connection issue. Please try again or reach us at +971 52 792 5100." }]);
+    } finally {
+      setIsThinking(false);
+    }
+  }, [input, isThinking]);
+
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); handleSend(); };
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      <style>{`
+        @keyframes spin-avatar { to { transform: rotate(360deg); } }
+        @keyframes typing-dot {
+          0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+          30% { transform: translateY(-5px); opacity: 1; }
+        }
+        @keyframes msg-in {
+          from { opacity: 0; transform: translateY(10px) scale(0.97); }
+          to   { opacity: 1; transform: translateY(0)  scale(1); }
+        }
+        @keyframes window-in {
+          from { opacity: 0; transform: translateY(20px) scale(0.96); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes header-scan {
+          0%   { right: -30%; left: auto; }
+          100% { right: 110%; left: auto; }
+        }
+        @keyframes suggest-in {
+          from { opacity: 0; transform: translateX(-8px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        .chat-scrollbar::-webkit-scrollbar { width: 3px; }
+        .chat-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .chat-scrollbar::-webkit-scrollbar-thumb { background: rgba(91,222,252,0.18); border-radius: 10px; }
+        .send-btn:hover { background: linear-gradient(135deg,#5bdefc,#ef29de) !important; transform: scale(1.05); }
+        .send-btn:active { transform: scale(0.97); }
+        .chip:hover { background: rgba(91,222,252,0.12) !important; border-color: rgba(91,222,252,0.4) !important; color: #5bdefc !important; transform: translateY(-1px); }
+        .close-btn:hover { background: rgba(255,255,255,0.1); }
+
+        /* ── Responsive chat window ─────────────────────────
+           Mobile  (<640px): fills viewport with 8px safe inset
+                             on all sides — never touches edges.
+           Desktop (≥640px): FIXED size always — never shrinks
+                             or grows with content. Messages
+                             scroll inside the fixed area.
+        ──────────────────────────────────────────────────── */
+        .chat-window {
+          position: fixed;
+          z-index: 1000002;
+          display: flex;
+          flex-direction: column;
+          border-radius: 24px;
+          overflow: hidden;
+          animation: window-in 0.38s cubic-bezier(0.34,1.3,0.64,1) both;
+          box-shadow: 0 32px 80px rgba(0,0,0,0.7),
+                      0 0 0 1px rgba(91,222,252,0.1),
+                      0 0 60px rgba(239,41,222,0.10);
+          background: linear-gradient(160deg,
+            rgba(3,7,18,0.98)  0%,
+            rgba(5,4,20,0.98)  60%,
+            rgba(2,8,16,0.98)  100%);
+          -webkit-backdrop-filter: blur(24px);
+          backdrop-filter: blur(24px);
+
+          /* ── Mobile-first: 8px safe inset, fills full viewport ── */
+          top:    8px;
+          left:   8px;
+          right:  8px;
+          bottom: 8px;
+          width:      auto;
+          height:     auto;
+          max-height: none;
+        }
+
+        /* ── Desktop: always the same fixed size, content scrolls ── */
+        @media (min-width: 640px) {
+          .chat-window {
+            /* Anchor to bottom-right above the floating buttons */
+            top:    auto;
+            left:   auto;
+            right:  16px;
+            bottom: 80px;
+
+            /* Fixed dimensions — never change regardless of content */
+            width:      520px;
+            height:     calc(100dvh - 100px);
+            max-height: 780px;
+
+            /* dvh fallback for older browsers */
+            height:     calc(100vh - 100px);
+            max-height: 780px;
+          }
+        }
+      `}</style>
+
+      <div className="chat-window">
+
+        {/* ── HEADER ── */}
+        <div style={{
+          position: 'relative', flexShrink: 0,
+          padding: '0 18px',
+          height: 72,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          borderBottom: '1px solid rgba(91,222,252,0.08)',
+          overflow: 'hidden',
+        }}>
+          <canvas ref={canvasRef} style={{
+            position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none',
+          }} />
+          <div style={{
+            position: 'absolute', inset: 0, pointerEvents: 'none',
+            background: 'linear-gradient(90deg, rgba(239,41,222,0.12) 0%, rgba(91,222,252,0.06) 50%, rgba(91,222,252,0.12) 100%)',
+          }} />
+          <div style={{
+            position: 'absolute', top: 0, bottom: 0, width: 60, pointerEvents: 'none',
+            background: 'linear-gradient(90deg, transparent, rgba(91,222,252,0.09), transparent)',
+            animation: 'header-scan 3.5s linear infinite',
+          }} />
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, position: 'relative', zIndex: 1 }}>
+            <BotAvatar />
+            <div>
+              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.22em', color: '#ffffff', textTransform: 'uppercase', lineHeight: 1.2 }}>
+                4Biz Neural Interface
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 3 }}>
+                <span style={{
+                  width: 6, height: 6, borderRadius: '50%',
+                  background: '#5bdefc',
+                  boxShadow: '0 0 8px #5bdefc',
+                  animation: 'typing-dot 2s ease-in-out infinite',
+                  display: 'inline-block',
+                }} />
+                <span style={{ fontSize: 9, color: 'rgba(91,222,252,0.7)', letterSpacing: '0.15em', fontFamily: 'monospace', textTransform: 'uppercase' }}>
+                  Online
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Close button — strokeWidth 3.5 for bold visibility */}
+          <button onClick={onClose} className="close-btn" style={{
+            position: 'relative', zIndex: 1,
+            width: 32, height: 32, borderRadius: '50%',
+            border: '1px solid rgba(255,255,255,0.1)',
+            background: 'transparent', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'background 0.2s',
+          }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="3.5" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        {/* ── MESSAGES — flex:1 so it fills remaining fixed height ── */}
+        <div ref={scrollRef} className="chat-scrollbar" style={{
+          flex: 1, overflowY: 'auto', padding: '18px 16px',
+          display: 'flex', flexDirection: 'column', gap: 14,
+          minHeight: 0, /* critical: lets flex child shrink + scroll */
+        }}>
+          {messages.map((msg, i) => (
+            <MessageBubble key={i} msg={msg} isLatest={i === messages.length - 1} />
+          ))}
+
+          {isThinking && (
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8 }}>
+              <BotAvatar />
+              <div style={{
+                padding: '10px 14px', borderRadius: '4px 18px 18px 18px',
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(91,222,252,0.1)',
+              }}>
+                <TypingDots />
+              </div>
+            </div>
+          )}
+
+          {showSuggestions && messages.length === 1 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginTop: 4 }}>
+              <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.15em', textTransform: 'uppercase', fontFamily: 'monospace', paddingLeft: 38 }}>
+                Quick prompts
+              </span>
+              {SUGGESTIONS.map((s, i) => (
+                <button key={s} onClick={() => handleSend(s)} className="chip" style={{
+                  alignSelf: 'flex-start', marginLeft: 38,
+                  padding: '7px 13px', borderRadius: 20,
+                  background: 'rgba(91,222,252,0.06)',
+                  border: '1px solid rgba(91,222,252,0.18)',
+                  color: 'rgba(255,255,255,0.65)', fontSize: 12,
+                  cursor: 'pointer', transition: 'all 0.2s',
+                  animation: `suggest-in 0.3s ease both`,
+                  animationDelay: `${i * 0.06}s`,
+                  fontFamily: 'inherit', textAlign: 'left',
+                }}>
+                  {s}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* ── INPUT ── */}
+        <form onSubmit={handleSubmit} style={{
+          flexShrink: 0,
+          padding: '12px 14px',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+          background: 'rgba(0,0,0,0.35)',
+          display: 'flex', gap: 8, alignItems: 'flex-end',
+        }}>
+          <div style={{ flex: 1, position: 'relative' }}>
+            <input
+              ref={inputRef}
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+              placeholder="Ask about our IT & digital solutions…"
+              disabled={isThinking}
+              style={{
+                width: '100%', boxSizing: 'border-box',
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 14,
+                padding: '11px 16px',
+                color: '#fff', fontSize: 13,
+                outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s',
+                fontFamily: 'inherit',
+              }}
+              onFocus={e => { e.currentTarget.style.borderColor = 'rgba(91,222,252,0.4)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(91,222,252,0.07)'; }}
+              onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.boxShadow = 'none'; }}
+            />
+          </div>
+
+          <button type="submit" className="send-btn" disabled={isThinking || !input.trim()} style={{
+            width: 42, height: 42, borderRadius: 12, flexShrink: 0,
+            background: input.trim() && !isThinking
+              ? 'linear-gradient(135deg,#ef29de,#5bdefc)'
+              : 'rgba(255,255,255,0.07)',
+            border: 'none', cursor: input.trim() && !isThinking ? 'pointer' : 'default',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'all 0.2s',
+            boxShadow: input.trim() && !isThinking ? '0 4px 16px rgba(239,41,222,0.4)' : 'none',
+          }}>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </form>
+
+        {/* Bottom brand tag */}
+        <div style={{
+          flexShrink: 0, padding: '5px 0 7px',
+          textAlign: 'center',
+          fontSize: 9, color: 'rgba(255,255,255,0.18)',
+          letterSpacing: '0.18em', fontFamily: 'monospace', textTransform: 'uppercase',
+          borderTop: '1px solid rgba(255,255,255,0.04)',
+          background: 'rgba(0,0,0,0.2)',
+        }}>
+          Powered by 4Biz AI
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default AIChatWindow;
+</file>
+
+<file path="src/components/Footer.tsx">
+"use client";
+
+import React, { useRef, useMemo } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
+import { 
+  RiFacebookFill, RiInstagramLine, RiLinkedinFill, 
+  RiYoutubeFill, RiTwitterXFill, RiDownloadCloud2Line 
+} from 'react-icons/ri';
+import Image from 'next/image';
+
+const Footer = () => {
+  const footerRef = useRef(null);
+  
+  // High-precision scroll tracking for Parallax
+  const { scrollYProgress } = useScroll({
+    target: footerRef,
+    offset: ["start end", "end end"]
+  });
+
+  // PHYSICS: Eliminates "jitter" on high-refresh displays
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 70,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  // 3D Transforms trigger GPU rendering to eliminate "shaking"
+  const y1 = useTransform(smoothProgress, [0, 1], ["0px", "-100px"]);
+  const y2 = useTransform(smoothProgress, [0, 1], ["0px", "100px"]);
+
+  const socialLinks = useMemo(() => [
+    { icon: <RiFacebookFill />, url: "https://www.facebook.com/4bizglobal" },
+    { icon: <RiInstagramLine />, url: "https://www.instagram.com/4biz_ae" },
+    { icon: <RiLinkedinFill />, url: "https://www.linkedin.com/company/4biz-international/" },
+    { icon: <RiTwitterXFill />, url: "https://x.com/4biz123" },
+    { icon: <RiYoutubeFill />, url: "https://www.youtube.com/@4bizinternationalae" },
+  ], []);
+
+  return (
+    <footer 
+      id="footer"
+      ref={footerRef} 
+      className="relative z-10 bg-transparent mt-4 pt-12 md:pt-16 pb-40 md:pb-24 overflow-hidden border-t border-white/5 transform-gpu backface-hidden"
+      style={{ 
+        contentVisibility: 'auto', 
+        paddingBottom: 'calc(160px + env(safe-area-inset-bottom))'
+      } as React.CSSProperties}
+    >
+      
+      {/* --- HARDWARE ACCELERATED GRADIENTS --- */}
+      <motion.div 
+        style={{ y: y1, translateZ: 0 }} 
+        className="absolute top-0 -right-20 w-[300px] md:w-[700px] h-[300px] md:h-[700px] bg-cyan-500/10 blur-[80px] md:blur-[120px] rounded-full pointer-events-none -z-10 animate-pulse will-change-transform" 
+      />
+      <motion.div 
+        style={{ y: y2, translateZ: 0 }} 
+        className="absolute bottom-0 -left-20 w-[300px] md:w-[700px] h-[300px] md:h-[700px] bg-purple-600/10 blur-[80px] md:blur-[120px] rounded-full pointer-events-none -z-10 animate-pulse will-change-transform" 
+      />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 md:gap-16 lg:gap-8 mb-20 items-start">
+          
+          {/* BRAND ARCHITECTURE */}
+          <div className="lg:col-span-5 flex flex-col items-start space-y-8 md:space-y-10">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="relative h-12 md:h-16 w-48 transition-transform duration-300 transform-gpu"
+            >
+              <Image 
+                src="/4biz_logo-1.avif" 
+                alt="4Biz International" 
+                fill
+                className="object-contain"
+                priority={false}
+              />
+            </motion.div>
+            <p className="text-white/50 text-sm md:text-lg leading-relaxed font-medium max-w-md border-l-[3px] border-cyan-400 pl-6 md:pl-8 italic antialiased">
+              "Engineering secure digital frontiers and redefining IT excellence for the next generation of global leaders."
+            </p>
+            
+            <div className="flex flex-wrap gap-3 md:gap-4">
+              {socialLinks.map((link, i) => (
+                <a 
+                  key={i} 
+                  href={link.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl border border-white/10 flex items-center justify-center text-xl md:text-2xl text-white/40 transition-all duration-300 hover:border-cyan-400 hover:bg-cyan-400/10 hover:text-white hover:-translate-y-1 transform-gpu"
+                >
+                  {link.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* CONTACT TERMINAL */}
+          <div className="lg:col-span-4 flex flex-col space-y-8 md:space-y-10">
+            <h4 className="text-cyan-400 font-black uppercase tracking-[0.5em] text-[10px] md:text-[11px] opacity-70">
+              Terminal / Logistics
+            </h4>
+            <ul className="space-y-6 md:space-y-8 text-white/70">
+              <li className="flex gap-4 md:gap-5 items-start group">
+                <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-purple-500/20 transition-colors">
+                  <FaMapMarkerAlt className="text-purple-500 text-base" />
+                </div>
+                <span className="text-sm md:text-base leading-relaxed group-hover:text-white transition-colors">
+                  Office 104, Crystal Building, Al Karama<br />
+                  Near ADCB Metro, Dubai, UAE
+                </span>
+              </li>
+              <li className="flex gap-4 md:gap-5 items-center group">
+                <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-cyan-400/20 transition-colors">
+                  <FaPhoneAlt className="text-cyan-400 text-base" />
+                </div>
+                <a href="tel:+971527925100" className="text-base md:text-lg font-bold group-hover:text-cyan-400 transition-colors">
+                  +971 52 79 25 100
+                </a>
+              </li>
+              <li className="flex gap-4 md:gap-5 items-center group">
+                <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-purple-500/20 transition-colors">
+                  <FaEnvelope className="text-purple-500 text-base" />
+                </div>
+                <a href="mailto:info@4bizinternational.com" className="break-all text-sm md:text-base group-hover:text-white transition-colors">
+                  info@4bizinternational.com
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* SYSTEM NAVIGATION */}
+          <div className="lg:col-span-3 flex flex-col space-y-8 md:space-y-10">
+            <h4 className="text-purple-500 font-black uppercase tracking-[0.5em] text-[10px] md:text-[11px] opacity-70">
+              System Interface
+            </h4>
+            <div className="flex flex-col gap-8">
+              <nav>
+                <ul className="grid grid-cols-2 lg:grid-cols-1 gap-4 text-white/40 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em]">
+                  {['Home', 'About', 'Services', 'Contact'].map((item) => (
+                    <li key={item}>
+                      <a href={`#${item.toLowerCase()}`} className="group flex items-center gap-3 hover:text-cyan-400 transition-colors">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-cyan-400 transition-all" />
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+              
+              <a 
+                href="/documents/4biz-international-company-profile.pdf"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group relative flex items-center justify-between bg-white/[0.03] border border-white/10 text-white py-4 px-6 rounded-xl transition-all hover:bg-white/[0.06] transform-gpu"
+              >
+                <div className="flex flex-col relative z-10">
+                  <span className="text-[8px] uppercase tracking-[0.4em] text-cyan-400 mb-1">Access File</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em]">Our Portfolio</span>
+                </div>
+                <RiDownloadCloud2Line className="text-2xl text-purple-500 group-hover:translate-y-[-2px] transition-transform" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* --- BOTTOM DATA STATUS BAR (CENTERED & CLEAN) --- */}
+        <div className="pt-8 border-t border-white/5 flex flex-col items-center justify-center gap-6">
+          <div className="flex flex-col items-center gap-4">
+            <p className="text-white/20 text-[8px] uppercase tracking-[0.4em] font-medium text-center">
+              © 2026 4Biz International 
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
+</file>
+
+<file path="src/components/Header.tsx">
+"use client";
+
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'framer-motion';
+import Image from 'next/image';
+
+/**
+ * Global smooth scroll handler compatible with Next.js App Router
+ */
+function scrollToSection(id: string) {
+  const el = document.getElementById(id);
+  const header = document.querySelector('header');
+  if (!el) return;
+  const offset = header ? header.getBoundingClientRect().height + 8 : 88;
+  const top = el.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+
+const Header = () => {
+  const phoneNumber = "971527925100";
+  const message = encodeURIComponent("Hello! I'd like to inquire about your services.");
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    const checkRes = () => setIsDesktop(window.innerWidth >= 1024);
+    checkRes();
+    window.addEventListener('resize', checkRes, { passive: true });
+    return () => window.removeEventListener('resize', checkRes);
+  }, []);
+
+  const { scrollY } = useScroll();
+  
+  const smoothY = useSpring(scrollY, { 
+    stiffness: 120, 
+    damping: 24, 
+    mass: 0.1, 
+    restDelta: 0.001 
+  });
+
+  const scrollRange = [0, 80];
+
+  const logoMarginTop = useTransform(smoothY, [0, 80], isDesktop ? [12, 0] : [0, 0]);
+  const headerScaleX = useTransform(smoothY, scrollRange, isDesktop ? [1, 0.94] : [1, 1]);
+  const headerScaleY = useTransform(smoothY, scrollRange, isDesktop ? [1, 0.9] : [1, 1]);
+  const headerYOffset = useTransform(smoothY, scrollRange, isDesktop ? [0, 16] : [0, 0]);
+  const borderRadius = useTransform(smoothY, scrollRange, isDesktop ? ['0px', '40px'] : ['0px', '0px']);
+  
+// Set background to transparent on mobile regardless of scroll, 
+  // while keeping the desktop scroll-to-opaque logic.
+  const backgroundColor = useTransform(smoothY, scrollRange, 
+    isDesktop 
+      ? ['rgba(3, 3, 11, 0)', 'rgba(3, 3, 11, 0.85)'] 
+      : ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0)'] // Fully transparent on mobile
+  );
+
+  // Set border to transparent on mobile
+  const borderColor = useTransform(smoothY, scrollRange, 
+    isDesktop 
+      ? ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0.15)'] 
+      : ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0)'] // No border on mobile
+  );
+
+  // Remove blur on mobile
+  const backdropFilter = useTransform(smoothY, scrollRange, 
+    isDesktop 
+      ? ['blur(0px)', 'blur(20px)'] 
+      : ['blur(0px)', 'blur(0px)'] // No blur on mobile
+  );
+
+  const navLinks = useMemo(() => [
+    { name: 'HOME',      href: '/',          id: 'hero'     },
+    { name: 'ABOUT',     href: '#about',    id: 'about'    },
+    { name: 'SERVICES',  href: '#services', id: 'services' },
+    { name: 'LOCATIONS', href: '#map',      id: 'map'      },
+    { name: 'CONTACT',   href: '#contact',  id: 'contact'  }
+  ], []);
+
+  const handleNavClick = useCallback((e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    setIsOpen(false);
+    scrollToSection(id);
+  }, []);
+
+  // Shared Button Component for Desktop and Mobile Drawer
+  const GetStartedButton = ({ className = "" }) => (
+    <a
+      href={`https://wa.me/${phoneNumber}?text=${message}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`static-gradient-btn ${className}`}
+    >
+      <span className="btn-content">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+          <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+          <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+          <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+        </svg>
+        GET STARTED
+      </span>
+    </a>
+  );
+
+  return (
+    <>
+      <motion.header
+        style={{ 
+          width: '100%',
+          y: headerYOffset, 
+          scaleX: headerScaleX,
+          scaleY: headerScaleY,
+          borderRadius, 
+          backgroundColor, 
+          borderColor,
+          backdropFilter,
+          WebkitBackdropFilter: backdropFilter,
+          x: '-50%',
+          left: '50%',
+          willChange: 'transform',
+        }}
+        className="fixed z-[100] lg:border flex items-center justify-between px-6 md:px-12 h-[72px] lg:h-[80px] pointer-events-auto origin-top"
+      >
+        {/* LOGO */}
+        <motion.div 
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="relative flex items-center group cursor-pointer shrink-0"
+          style={{ marginTop: logoMarginTop }}
+        >
+          <div className="relative w-32 lg:w-40 h-12 lg:h-16 transition-transform duration-500 group-hover:scale-105">
+             <Image 
+                src="/4biz_logo-1.avif" 
+                alt="4Biz International LLC" 
+                fill
+                priority
+                className="object-contain"
+              />
+          </div>
+        </motion.div>
+
+        {/* DESKTOP NAVIGATION */}
+        <nav className="hidden lg:flex items-center gap-10">
+          {navLinks.map((link) => (
+            <a 
+              key={link.name} 
+              href={link.href}
+              onClick={(e) => handleNavClick(e, link.id)}
+              className="text-[11px] uppercase tracking-[0.25em] font-black text-white/90 hover:text-cyan-400 transition-colors duration-300 relative group antialiased"
+            >
+              {link.name}
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-gradient-to-r from-[#00f2ff] to-[#bf00ff] transition-all duration-300 group-hover:w-full" />
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-4">
+          {/* DESKTOP ONLY BUTTON */}
+          <div className="hidden lg:block">
+            <GetStartedButton />
+          </div>
+
+{/* MOBILE TOGGLE — Replaced for exact symmetry */}
+          <button 
+            onClick={() => setIsOpen(!isOpen)} 
+            className="lg:hidden relative w-10 h-10 flex flex-col items-center justify-center z-[110] touch-manipulation transform-gpu"
+            aria-label="Toggle menu"
+          >
+            <div className="flex flex-col gap-[6px] items-center">
+              <motion.span
+                animate={isOpen ? { rotate: 45, y: 9 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.25, ease: 'easeInOut' }}
+                className="w-[22px] h-[3px] bg-white block rounded-sm origin-center"
+              />
+              <motion.span
+                animate={isOpen ? { opacity: 0, x: -8 } : { opacity: 1, x: 0 }}
+                transition={{ duration: 0.2, ease: 'easeInOut' }}
+                className="w-[22px] h-[3px] bg-white block rounded-sm"
+              />
+              <motion.span
+                animate={isOpen ? { rotate: -45, y: -9 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.25, ease: 'easeInOut' }}
+                className="w-[22px] h-[3px] bg-white block rounded-sm origin-center"
+              />
+            </div>
+          </button>
+        </div>
+      </motion.header>
+
+      {/* STYLES - Performance Optimized */}
+      <style jsx global>{`
+        .static-gradient-btn {
+          position: relative;
+          display: inline-flex;
+          padding: 2px; /* Border thickness */
+          border-radius: 999px;
+          background: linear-gradient(90deg, #00f2ff, #bf00ff);
+          text-decoration: none;
+          transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          cursor: pointer;
+          overflow: hidden;
+        }
+
+        .static-gradient-btn:hover {
+          transform: scale(1.1);
+        }
+
+        .btn-content {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #03030b; /* Matches your site background */
+          color: white;
+          padding: 8px 24px;
+          border-radius: 999px;
+          font-size: 11px;
+          font-weight: 900;
+          letter-spacing: 0.15em;
+          width: 100%;
+          height: 100%;
+          transition: background 0.3s ease;
+        }
+
+        .static-gradient-btn:hover .btn-content {
+          background: rgba(3, 3, 11, 0.8);
+        }
+
+        /* Performance Fixes */
+        header {
+          transform-origin: top center;
+          will-change: transform;
+          -webkit-font-smoothing: antialiased;
+        }
+      `}</style>
+
+      {/* Dim backdrop */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 z-[96] bg-black/70 lg:hidden backdrop-blur-md"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* MOBILE DRAWER */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            key="drawer"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', stiffness: 350, damping: 40 }}
+            className="fixed top-0 right-0 h-full w-[80vw] max-w-[320px] z-[97] flex flex-col pt-32 pb-12 px-10 lg:hidden shadow-2xl"
+            style={{
+              background: 'rgba(3, 3, 11, 0.98)',
+              borderLeft: '1px solid rgba(255,255,255,0.1)',
+            }}
+          >
+            <nav className="flex flex-col gap-8">
+              {navLinks.map((link, i) => (
+                <motion.a
+                  key={link.name}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.id)}
+                  className="text-xl font-black uppercase tracking-widest text-white hover:text-cyan-400 active:scale-95 transition-all"
+                >
+                  {link.name}
+                </motion.a>
+              ))}
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mt-6"
+              >
+                {/* Button inside the toggle window for mobile/tablet */}
+                <GetStartedButton className="w-full text-center" />
+              </motion.div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
+export default Header;
+</file>
+
+<file path="src/components/Hero.tsx">
+'use client';
+
+import React from 'react';
+import Image from 'next/image';
+
+export default function Hero() {
+  const iconClass = 'text-white flex items-center justify-center';
+
+  const socials = [
+    {
+      href: 'https://wa.me/971527925100?text=Hello%204Biz%20International,%20I%20am%20interested%20in%20your%20services.%20Please%20share%20more%20details.',
+      label: 'WhatsApp',
+      path: 'M20.52 3.48A11.8 11.8 0 0 0 12.04 0C5.4 0 .02 5.38.02 12c0 2.12.56 4.19 1.62 6.02L0 24l6.15-1.61A11.97 11.97 0 0 0 12.04 24C18.66 24 24 18.62 24 12c0-3.2-1.25-6.2-3.48-8.52zM12.04 21.9c-1.8 0-3.56-.48-5.1-1.38l-.36-.21-3.65.96.98-3.56-.24-.37A9.8 9.8 0 0 1 2.24 12c0-5.4 4.4-9.8 9.8-9.8s9.8 4.4 9.8 9.8-4.4 9.9-9.8 9.9zm5.38-7.36c-.29-.15-1.72-.85-1.99-.95-.27-.1-.47-.15-.66.15-.19.29-.76.95-.93 1.14-.17.19-.34.22-.63.07-.29-.15-1.22-.45-2.33-1.43-.86-.77-1.45-1.72-1.62-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.07-.15-.66-1.58-.9-2.16-.24-.58-.49-.5-.66-.51h-.56c-.19 0-.51.07-.78.36-.27.29-1.02 1-.98 2.43.05 1.43 1.02 2.81 1.16 3 .15.19 2.02 3.08 4.89 4.31.68.29 1.21.46 1.62.58.68.22 1.3.19 1.79.12.55-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.27-.19-.56-.34z',
+      target: '_blank',
+    },
+    {
+      href: 'tel:+971527925100',
+      label: 'Call',
+      path: 'M23.27 17.53l-5.3-2.27c-.57-.24-1.22-.08-1.61.39l-2.35 2.87c-3.65-1.72-6.59-4.66-8.31-8.31l2.87-2.35c.47-.39.63-1.04.39-1.61L6.69.73A1.5 1.5 0 0 0 5.03-.13L.89.83A1.5 1.5 0 0 0-.25 2.29C-.25 14.3 9.7 24.25 21.71 24.25a1.5 1.5 0 0 0 1.46-1.14l.96-4.14a1.5 1.5 0 0 0-.86-1.44z',
+    },
+    {
+      href: 'https://www.facebook.com/4bizglobal',
+      label: 'Facebook',
+      path: 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874V12h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z',
+      target: '_blank',
+    },
+    {
+      href: 'https://www.instagram.com/4biz_ae',
+      label: 'Instagram',
+      path: 'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4.162 4.162 0 1 1 0-8.324A4.162 4.162 0 0 1 12 16zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z',
+      target: '_blank',
+    },
+    {
+      href: 'https://www.linkedin.com/company/4biz-international/',
+      label: 'LinkedIn',
+      path: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.225 0z',
+      target: '_blank',
+    },
+    {
+      href: 'https://x.com/4biz123',
+      label: 'X',
+      path: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z',
+      target: '_blank',
+    },
+    {
+      href: 'https://www.youtube.com/@4bizinternationalae',
+      label: 'YouTube',
+      path: 'M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93-.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.377.505 9.377.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z',
+      target: '_blank',
+    },
+  ];
+
+  return (
+    <section
+      className="relative h-svh min-h-[480px] w-full flex flex-col justify-between text-center overflow-hidden bg-[#020406]"
+      aria-label="Introduction Summary"
+    >
+      {/* ── BACKGROUND ── */}
+      <div
+        className="absolute inset-0 z-0 select-none pointer-events-none"
+        aria-hidden="true"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+<img
+  src="/4biz-hero-2.jpeg"
+  alt=""
+  width="1536"
+  height="1024"
+  fetchPriority="high"
+  decoding="async"
+  // 'object-cover' fills the screen (default for mobile)
+  // 'md:object-contain' shows the whole image on desktops
+  className="w-full h-full object-cover md:object-contain object-center brightness-[0.85] contrast-[1.1]"
+  style={{ willChange: 'auto' }}
+/>
+      </div>
+
+      {/* ── SOCIAL SIDEBAR ── */}
+      <nav
+        aria-label="Social media links"
+        className="
+          absolute top-1/2 -translate-y-1/2 z-40
+          flex flex-col items-center justify-center
+          left-2 gap-3
+          sm:left-3 sm:gap-4
+          lg:left-[14px] lg:gap-[22px]
+        "
+      >
+        {socials.map(({ href, label, path, target }) => (
+          <a
+            key={label}
+            href={href}
+            target={target}
+            rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+            className={iconClass}
+            aria-label={label}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="#FFFFFF"
+              aria-hidden="true"
+              className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 block shrink-0"
+            >
+              <path d={path} />
+            </svg>
+          </a>
+        ))}
+      </nav>
+
+      {/* ── CENTRE CONTENT ── */}
+      <div className="relative flex-1 flex flex-col items-center justify-center w-full max-w-7xl mx-auto px-10 sm:px-16 z-30 pt-4 sm:pt-10 min-h-0">
+        <div className="w-full flex flex-col items-center gap-1 sm:gap-3 lg:gap-4">
+
+          {/* Logo — glow via pure CSS, instant at paint, zero JS dependency */}
+          <div
+            className="relative z-40 cursor-default mb-1 sm:mb-2"
+            style={{
+              filter:
+                'drop-shadow(0 0 30px rgba(255,255,255,0.8)) drop-shadow(0 0 15px rgba(180,220,255,0.5)) drop-shadow(0 4px 12px rgba(0,0,0,0.8))',
+            }}
+          >
+            {/* Ambient glow halo — always rendered, CSS only */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 -z-10"
+              style={{
+                background:
+                  'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,255,255,0.15) 0%, rgba(160,210,255,0.08) 40%, transparent 75%)',
+                transform: 'scale(2.2)',
+                filter: 'blur(22px)',
+              }}
+            />
+            <Image
+              src="/4biz_logo-2.png"
+              alt="4Biz International Logo"
+              width={400}
+              height={150}
+              priority
+              className="h-auto object-contain brightness-125 contrast-125 w-[88px] sm:w-[110px] lg:w-[130px]"
+            />
+          </div>
+
+          {/* Headline */}
+          {/* <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold leading-[1.15] tracking-tight text-white px-4 antialiased mt-2 mb-0">
+            <span className="relative inline-block py-1 text-transparent bg-clip-text bg-gradient-to-r from-[#00f2ff] via-[#bf00ff] to-[#ff00d4] drop-shadow-[0_0_15px_rgba(191,0,255,0.25)]">
+              4biz international
+            </span>
+            <br />
+            <span className="font-light opacity-80">impacting infinite</span>
+          </h1> */}
+
+        </div>
+      </div>
+
+      {/* ── SCROLL SIGNAL (no animation, CSS-only indicator) ── */}
+      <div
+        className="relative w-full flex flex-col items-center justify-center pb-[2vh] z-50 pointer-events-none shrink-0"
+        aria-hidden="true"
+      >
+        <div className="flex flex-col items-center justify-center gap-y-2 sm:gap-y-3">
+          {/* Mouse outline — symmetric pill shape, pure CSS */}
+          <div
+            style={{
+              position: 'relative',
+              width: '24px',
+              height: '40px',
+              borderRadius: '12px',
+              border: '2px solid rgba(255,255,255,0.4)',
+              background: 'rgba(0,0,0,0.7)',
+              backdropFilter: 'blur(8px)',
+              boxShadow: '0 4px 24px rgba(0,0,0,0.9)',
+              display: 'flex',
+              alignItems: 'flex-start',
+              justifyContent: 'center',
+              paddingTop: '6px',
+            }}
+          >
+            {/* Fixed dot */}
+            <span
+              style={{
+                display: 'block',
+                width: '3px',
+                height: '7px',
+                borderRadius: '9999px',
+                background: '#ffffff',
+                boxShadow: '0 0 10px #fff',
+              }}
+            />
+          </div>
+
+          <span
+            className="text-[0.5rem] sm:text-[0.68rem] font-black tracking-[0.45em] normal-case text-white opacity-95 pl-[0.45em]"
+            style={{ textShadow: '0 2px 6px #000, 0 4px 12px #000, 0 0 8px rgba(255,255,255,0.2)' }}
+          >
+            scroll down
+          </span>
+        </div>
+      </div>
+
+
+    </section>
+  );
+}
+</file>
+
+<file path="src/components/LeftFixedSocialIcons.tsx">
+'use client';
+
+import React from 'react';
+
+export default function LeftFixedSocialIcons() {
+  // Pure white style with 100% brightness and no opacity filters
+  const iconClass = "text-white transition-all duration-300 hover:scale-125 flex items-center justify-center";
+  
+  return (
+    <div 
+      className="fixed z-[9999] flex flex-col items-center bg-transparent pointer-events-auto"
+      style={{ 
+        left: '20px',          // Forces a distinct horizontal gap from the left edge
+        top: '50%', 
+        transform: 'translateY(-50%)',
+        gap: '25px'            // Forces a large, unmistakable vertical gap between each icon
+      }}
+    >
+
+
+      {/* WhatsApp */}
+<a
+  href="https://wa.me/971527925100?text=Hello%204Biz%20International,%20I%20am%20interested%20in%20your%20services.%20Please%20share%20more%20details."
+  target="_blank"
+  rel="noopener noreferrer"
+  className={iconClass}
+  aria-label="WhatsApp"
+>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF">
+    <path d="M20.52 3.48A11.8 11.8 0 0 0 12.04 0C5.4 0 .02 5.38.02 12c0 2.12.56 4.19 1.62 6.02L0 24l6.15-1.61A11.97 11.97 0 0 0 12.04 24C18.66 24 24 18.62 24 12c0-3.2-1.25-6.2-3.48-8.52zM12.04 21.9c-1.8 0-3.56-.48-5.1-1.38l-.36-.21-3.65.96.98-3.56-.24-.37A9.8 9.8 0 0 1 2.24 12c0-5.4 4.4-9.8 9.8-9.8s9.8 4.4 9.8 9.8-4.4 9.9-9.8 9.9zm5.38-7.36c-.29-.15-1.72-.85-1.99-.95-.27-.1-.47-.15-.66.15-.19.29-.76.95-.93 1.14-.17.19-.34.22-.63.07-.29-.15-1.22-.45-2.33-1.43-.86-.77-1.45-1.72-1.62-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.07-.15-.66-1.58-.9-2.16-.24-.58-.49-.5-.66-.51h-.56c-.19 0-.51.07-.78.36-.27.29-1.02 1-.98 2.43.05 1.43 1.02 2.81 1.16 3 .15.19 2.02 3.08 4.89 4.31.68.29 1.21.46 1.62.58.68.22 1.3.19 1.79.12.55-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.27-.19-.56-.34z"/>
+  </svg>
+</a>
+
+{/* Call */}
+<a
+  href="tel:+971527925100"
+  className={iconClass}
+  aria-label="Call"
+>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF">
+    <path d="M23.27 17.53l-5.3-2.27c-.57-.24-1.22-.08-1.61.39l-2.35 2.87c-3.65-1.72-6.59-4.66-8.31-8.31l2.87-2.35c.47-.39.63-1.04.39-1.61L6.69.73A1.5 1.5 0 0 0 5.03-.13L.89.83A1.5 1.5 0 0 0-.25 2.29C-.25 14.3 9.7 24.25 21.71 24.25a1.5 1.5 0 0 0 1.46-1.14l.96-4.14a1.5 1.5 0 0 0-.86-1.44z"/>
+  </svg>
+</a>
+
+
+      {/* Facebook */}
+      <a href="https://www.facebook.com/4bizglobal" target="_blank" rel="noopener noreferrer" className={iconClass} aria-label="Facebook">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874V12h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+
+      {/* Instagram */}
+      <a href="https://www.instagram.com/4biz_ae" target="_blank" rel="noopener noreferrer" className={iconClass} aria-label="Instagram">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4.162 4.162 0 1 1 0-8.324A4.162 4.162 0 0 1 12 16zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </a>
+
+      {/* LinkedIn */}
+      <a href="https://www.linkedin.com/company/4biz-international/" target="_blank" rel="noopener noreferrer" className={iconClass} aria-label="LinkedIn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+      </a>
+
+      {/* X / Twitter */}
+      <a href="https://x.com/4biz123" target="_blank" rel="noopener noreferrer" className={iconClass} aria-label="X">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+
+      {/* YouTube */}
+      <a href="https://www.youtube.com/@4bizinternationalae" target="_blank" rel="noopener noreferrer" className={iconClass} aria-label="YouTube">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.377.505 9.377.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a>
+
+    </div>
+  );
+}
+</file>
+
+<file path="src/components/Services.tsx">
+"use client";
+
+import React, { useRef, useMemo } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import Image from 'next/image';
+
+interface ServiceProps {
+  title: string;
+  desc: string;
+  icon: string;
+  img?: string;
+  videoUrl?: string;
+  index: number;
+}
+
+const ServiceCard = ({ title, desc, icon, img, videoUrl, index }: ServiceProps) => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const smoothX = useSpring(mouseX, { stiffness: 500, damping: 50 });
+  const smoothY = useSpring(mouseY, { stiffness: 500, damping: 50 });
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      className="group relative overflow-hidden rounded-[2.5rem] border border-white/20 bg-white/[0.03] backdrop-blur-sm p-6 transition-colors duration-500 hover:border-cyan-400 transform-gpu"
+    >
+      {/* Media Section: Shows Video if videoUrl exists, otherwise shows Image */}
+      <div className="relative h-52 mb-6 overflow-hidden rounded-2xl z-20 bg-black/20">
+        {videoUrl ? (
+          <iframe
+            className="w-full h-full"
+            src={videoUrl}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        ) : (
+          <div className="relative w-full h-full overflow-hidden">
+            <Image 
+              src={img || '/images/placeholder.avif'} 
+              alt={title}
+              fill
+              priority={index < 3} // Priority for top row to improve LCP
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Content Section */}
+      <div className="relative z-20">
+        <div className="text-4xl mb-4 drop-shadow-lg">{icon}</div>
+        <h3 className="text-xl font-bold mb-3 text-white tracking-tight">{title}</h3>
+        <p className="text-white/70 text-sm leading-relaxed">{desc}</p>
+      </div>
+
+      {/* Spotlight Effect */}
+      <motion.div
+        className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity z-10"
+        style={{
+          background: useMemo(() => `radial-gradient(600px circle at var(--x) var(--y), rgba(34, 211, 238, 0.1), transparent 40%)`, []),
+          // @ts-ignore - custom properties for motion values
+          '--x': smoothX,
+          '--y': smoothY,
+        }}
+      />
+    </motion.div>
+  );
+};
+
+const Services = () => {
+  const serviceData = useMemo(() => [
+    { 
+      title: "Web Design & Development", 
+      desc: "We provide complete Web Management Services, including website, email, and SEO. Partner with us for cost-effective solutions, expert support, and an optimized online presence. Our cutting-edge technology ensures your website works well on all devices, giving you a competitive edge in your industry.", 
+      icon: "🌐",
+      img: "/images/services/webdevelopment.avif" 
+    },
+    { 
+      title: "Search Engine Optimization", 
+      desc: "In the ever-evolving digital landscape, the visibility of your business in search engine results is paramount to your online success. At 4Biz International, we understand the critical importance of Search Engine Optimization (SEO) as an integral element of your marketing strategy. Our approach goes above and beyond conventional strategies to ensure that your website not only ranks high but shines brightly in the online realm.",
+      icon: "🚀",
+      img: "/images/services/seo.avif" 
+    },
+    { 
+      title: "Microsoft Dynamics 365",
+      desc: "At 4biz International, we take pride in offering an unparalleled solution to transform and empower your business—Microsoft Dynamics 365. This all-in-one platform seamlessly integrates Customer Relationship Management (CRM) and Enterprise Resource Planning (ERP), providing a unified system to streamline operations and elevate your overall business efficiency.",
+      icon: "♾️",
+      img: "/images/services/microsoftdynamic365.avif" 
+    },
+    { 
+      title: "Social Media Marketing",
+      desc: "In a digital landscape where social media reigns supreme, 4Biz International stands as your strategic partner to turn platforms like Facebook, Instagram, LinkedIn, and Twitter into powerful catalysts for brand success. we don't just manage social media; we craft digital narratives that elevate your brand's online presence. Our approach is a fusion of strategy, engagement, and content excellence, ensuring your brand not only stands out but thrives in the dynamic world of social media.", 
+      icon: "📢", 
+      img: "/images/services/socialmediamrketing.avif" 
+    },
+    { 
+      title: "Domain & Hosting", 
+      desc: "At 4Biz, we offer our own fast and reliable hosting solutions. We use cutting-edge technology and high-performance hardware for exceptional results. Our dedicated servers provide fast and dependable hosting for websites and web apps. Whether you need hosting packages, Site Lock, SSL Certificates, or Hacking Protection, we've got you covered.", 
+      icon: "☁️", 
+      img: "/images/services/domainandhosting.avif" 
+    },
+    { 
+      title: "Content Marketing", 
+      desc: "In the dynamic realm of digital marketing, content reigns supreme, and at 4Biz, we understand that quality content is the heartbeat of a successful strategy. Our Content Marketing services go beyond the ordinary, incorporating key elements that ensure your brand stands out in the digital landscape. At 4Biz, we excel in delivering outstanding Content Marketing services designed to amplify your brand's digital footprint.", 
+      icon: "✍️", 
+      img: "/images/services/contentmarketing.avif" 
+    },
+    { 
+      title: "Email And SMS Marketing", 
+      desc: "At 4Biz, we understand the power of effective email marketing and SMS campaigns in today's digital landscape. Our comprehensive services are designed to help businesses reach their target audience, engage with customers, and drive measurable results. With our expertise in crafting compelling email content, designing eye-catching templates, and implementing strategic SMS campaigns, we ensure that your marketing messages resonate with your audience and drive conversions.", 
+      icon: "📩", 
+      img: "/images/services/emailandsmsmarketing.avif" 
+    },
+    { 
+      title: "Branding", 
+      desc: "Branding is about creating a distinct image through consistent advertising to stand out, attract loyal customers, and leave an impact.We have a unique approach for building strong brands. It requires a systematic strategy to make a lasting impression. It's not just about quality; it's about how you present your brand.", 
+      icon: "💎", 
+      img: "/images/services/branding.avif" 
+    },
+    { 
+      title: "Photoshoot And Videoshoot", 
+      desc: "In the expansive realm of professional photography and video services, 4Biz emerges as your dedicated partner, committed to translating your brand vision into captivating visual stories. Our skilled team doesn't just wield technical prowess; they bring a creative passion that breathes life into every frame, transforming mere moments into an immersive visual experience.", 
+      icon: "📸", 
+      img: "/images/services/photoshootandvideoshoot.avif" 
+    },
+    { 
+      title: "CRM Software", 
+      desc: "At 4Biz International, we present a cutting-edge CRM (Customer Relationship Management) software solution designed to revolutionize how you manage and nurture customer relationships. Our CRM is not just a tool; it's a dynamic ecosystem equipped to enhance your customer management to unique levels", 
+      icon: "👥", 
+      img: "/images/services/crmsoftware.avif" 
+    },
+    { 
+      title: "IT Infrastructure", 
+      desc: "We specialize in modern, cost-effective IT infrastructure solutions, including structured cabling, networking, security, servers, and more. Our services also encompass system integration and managed services to support your business.", 
+      icon: "🏗️", 
+      img: "/images/services/itinfrastructure.avif" 
+    },
+    { 
+      title: "Mobile App Development", 
+      desc: "Embark on a journey of digital transformation with 4Biz International as your dedicated innovation partner. We cater to entrepreneurs, businesses, and startups, managing the entire app development cycle from concept to a fully realized product. Our skilled team specializes in delivering strategically designed mobile app solutions, poised to elevate your business in the dynamic digital landscape.", 
+      icon: "📲", 
+      img: "/images/services/mobileappdevelopment.avif" 
+    },
+    { 
+      title: "CMS Software", 
+      desc: "At 4Biz International, we bring you the power of advanced CMS (Content Management System) technology for seamless and efficient digital content management. Our solutions cater to both enterprise and web content needs, fostering workplace collaboration through integrated document and asset management.", 
+      icon: "📁", 
+      img: "/images/services/cmssoftware.avif" 
+    },
+    { 
+      title: "4Biz ERP Solutions", 
+      desc: "4Biz ERP stands as a flexible and comprehensive solution meticulously designed to meet the unique needs of retail, supply chain distribution, and manufacturing industries. Tailor your ERP experience by selecting the modules that align with your business requirements, and scale up effortlessly as your business grows. With 4Biz ERP, optimize your investments and unlock a new era of operational efficiency.", 
+      icon: "⚙️", 
+      img: "/images/services/4bizerpsolutions.avif" 
+    },
+    { 
+      title: "Brand Story", 
+      desc: "At 4Biz International, we see a digital landscape full of untapped potential. We transform that potential into performance by merging cutting-edge technological innovation with master-class strategic planning. Our mission is to scale your vision, optimize your operations, and ensure your business doesn't just survive the digital evolution—it leads it.", 
+      icon: "🎬", 
+      videoUrl: "https://www.youtube.com/embed/xwGzKRwNSA0" 
+    },
+  ], []);
+
+  return (
+    <section 
+      id="services" 
+      className="py-24 px-6 lg:px-12 relative bg-transparent overflow-hidden transform-gpu"
+      style={{ 
+        contentVisibility: 'auto', 
+        containIntrinsicSize: '0 1200px' 
+      }}
+    >
+      {/* ATMOSPHERIC OVERLAY */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-950/20 via-transparent to-purple-950/20 mix-blend-overlay" />
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-purple-600/10 blur-[120px] rounded-full animate-soft-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-cyan-600/10 blur-[120px] rounded-full animate-soft-pulse" />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-20">
+          <motion.span 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-cyan-400 font-mono text-xs md:text-sm tracking-[0.6em] uppercase font-black"
+          >
+            Digital Excellence Since 2010
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-5xl md:text-7xl lg:text-8xl font-black text-white mt-6 tracking-tighter"
+          >
+            Our Core <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-purple-500 drop-shadow-[0_0_15px_rgba(236,72,153,0.3)]">Capabilities</span>
+          </motion.h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {serviceData.map((service, index) => (
+            <ServiceCard key={index} index={index} {...service} />
+          ))}
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes soft-pulse {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(1.05); }
+        }
+        .animate-soft-pulse {
+          animation: soft-pulse 8s ease-in-out infinite;
+          will-change: transform, opacity;
+        }
+      `}</style>
+    </section>
+  );
+};
+
+export default Services;
+</file>
+
+<file path="src/components/WhatsAppButton.tsx">
+"use client";
+
+import React from 'react';
+
+const WhatsAppButton = () => {
+  const phoneNumber = "971527925100";
+  const message = encodeURIComponent("Hello! I'd like to inquire about your services.");
+
+  return (
+    <>
+      <div
+        className="fixed z-[999999] flex flex-row-reverse items-center pointer-events-none group transform-gpu"
+        style={{ bottom: '80px', right: '20px' }}
+      >
+        <a
+          href={`https://wa.me/${phoneNumber}?text=${message}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="wa-orb pointer-events-auto will-change-transform relative flex items-center justify-center transition-all duration-500"
+          aria-label="Contact on WhatsApp"
+          style={{ width: 48, height: 48 }}
+        >
+          {/* Pulsing rings */}
+          <span className="wa-ring wa-ring-1" />
+          <span className="wa-ring wa-ring-2" />
+
+          {/* Chromatic spinning core — reverse direction vs AI button */}
+          <span className="wa-orb-core" />
+
+          {/* Inner radial glow */}
+          <span className="wa-inner-glow" />
+
+          {/* Gloss overlay */}
+          <span style={{
+            position: 'absolute', inset: 0, borderRadius: '50%',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.24) 0%, transparent 50%)',
+            zIndex: 10, pointerEvents: 'none',
+          }} />
+
+          {/* Original WhatsApp SVG icon from JSX */}
+          <svg viewBox="0 0 32 32"
+            style={{ width: 22, height: 22, fill: 'white', position: 'relative', zIndex: 20, flexShrink: 0, transition: 'transform 0.5s' }}
+            className="group-hover:rotate-12">
+            <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825.737 5.48 2.025 7.78l-2.025 7.395 7.58-1.99c2.35 1.4 5.08 2.215 8.02 2.215 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.355c-2.585 0-4.99-.745-7.035-2.035l-.505-.315-4.485 1.175 1.2-4.385-.35-.555c-1.425-2.275-2.18-4.91-2.18-7.64 0-7.72 6.28-14 14-14s14 6.28 14 14-6.28 14-14 14zM22.9 19.33c-.385-.195-2.275-1.12-2.625-1.245s-.605-.195-.855.195-.975 1.245-1.195 1.5-.445.285-.83.09c-.385-.195-1.63-.6-3.105-1.915-1.145-1.025-1.92-2.29-2.145-2.675s-.025-.595.17-.79c.175-.175.385-.45.58-.675.19-.22.255-.385.385-.64s.065-.48-.035-.675-.855-2.065-1.17-2.825c-.305-.745-.615-.645-.855-.655s-.485-.015-.745-.015-.675.1-1.03.495c-.35.395-1.345 1.315-1.345 3.205s1.375 3.715 1.57 3.975c.195.255 2.705 4.13 6.55 5.79.915.39 1.63.625 2.185.8 1.015.32 1.935.275 2.665.165.815-.12 2.275-.93 2.59-1.83.315-.895.315-1.66.22-1.825-.095-.175-.35-.275-.735-.47z"/>
+          </svg>
+        </a>
+
+        {/* Tooltip — exactly as per JSX requirement */}
+        <div className="hidden lg:flex items-center mr-4 px-4 py-2 bg-[#03030b]/88 backdrop-blur-xl border border-white/[0.08] rounded-xl text-white text-[10px] font-bold uppercase tracking-[0.32em] opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-400 ease-out pointer-events-none whitespace-nowrap"
+          style={{ boxShadow: '0 0 24px rgba(91,222,252,0.22)' }}>
+          <span className="relative flex h-2 w-2 mr-3 flex-shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#5bdefc' }}></span>
+            <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: 'linear-gradient(135deg,#5bdefc,#ef29de)' }}></span>
+          </span>
+          WhatsApp
+        </div>
+      </div>
+
+      <style jsx global>{`
+        .wa-orb {
+          border-radius: 50%;
+          contain: layout paint;
+          cursor: pointer;
+          transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .wa-orb:hover { transform: scale(1.16) translateY(-3px); }
+
+        .wa-orb-core {
+          position: absolute; inset: 0; border-radius: 50%; z-item: 1;
+          background: conic-gradient(from 180deg,
+            #5bdefc 0deg,
+            #ef29de 120deg,
+            #5bdefc 240deg,
+            #ef29de 360deg
+          );
+          animation: wa-spin 5s linear infinite reverse, wa-brightness 3.5s ease-in-out infinite alternate;
+          box-shadow:
+            0 0 16px rgba(91,222,252,0.65),
+            0 0 32px rgba(239,41,222,0.28),
+            inset 0 0 12px rgba(0,0,0,0.65);
+        }
+        @keyframes wa-spin { to { transform: rotate(360deg); } }
+        @keyframes wa-brightness {
+          0%   { filter: brightness(0.9) saturate(1.1); }
+          100% { filter: brightness(1.2) saturate(1.4); }
+        }
+
+        .wa-inner-glow {
+          position: absolute; inset: 5px; border-radius: 50%; z-index: 5; pointer-events: none;
+          background: radial-gradient(circle at 62% 33%,
+            rgba(91,222,252,0.55) 0%,
+            rgba(239,41,222,0.28) 50%,
+            transparent 100%
+          );
+          animation: wa-glow 3s ease-in-out infinite alternate;
+        }
+        @keyframes wa-glow {
+          0%   { opacity: 0.5;  transform: scale(0.88); }
+          100% { opacity: 1;    transform: scale(1.1); }
+        }
+
+        .wa-ring {
+          position: absolute; border-radius: 50%;
+          border: 1px solid transparent; pointer-events: none;
+        }
+        .wa-ring-1 { inset: -3px; border-color: rgba(91,222,252,0.55);  animation: wa-pulse-ring 2.8s ease-out infinite; }
+        .wa-ring-2 { inset: -3px; border-color: rgba(239,41,222,0.40); animation: wa-pulse-ring 2.8s ease-out infinite 1.4s; }
+        @keyframes wa-pulse-ring {
+          0%   { transform: scale(1);   opacity: 0.85; }
+          100% { transform: scale(2.5); opacity: 0; }
+        }
+      `}</style>
+    </>
+  );
+};
+
+export default WhatsAppButton;
+</file>
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path="AGENTS.md">
+<!-- BEGIN:nextjs-agent-rules -->
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+<!-- END:nextjs-agent-rules -->
+</file>
+
+<file path="CLAUDE.md">
+@AGENTS.md
+</file>
+
+<file path="eslint.config.mjs">
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+</file>
+
+<file path="next.config.ts">
+import type { NextConfig } from "next";
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export', // Tells Next.js to compile your app directly into static HTML/CSS/JS files
+  images: {
+    unoptimized: true, // Required for fully standalone static HTML exports
+  },
+};
+
+export default nextConfig;
+</file>
+
+<file path="package.json">
+{
+  "name": "4biz-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "framer-motion": "^12.40.0",
+    "next": "16.2.7",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-icons": "^5.6.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.7",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="postcss.config.mjs">
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+</file>
+
+<file path="README.md">
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+</file>
+
+</files>
