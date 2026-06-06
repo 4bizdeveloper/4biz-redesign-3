@@ -68,7 +68,7 @@ const Footer = () => {
               className="relative h-12 md:h-16 w-48 transition-transform duration-300 transform-gpu"
             >
               <Image 
-                src="/4biz_logo-1.avif" 
+                src="/4biz_logo-1.jpg" 
                 alt="4Biz International" 
                 fill
                 className="object-contain"
