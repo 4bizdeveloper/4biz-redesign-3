@@ -304,12 +304,20 @@ export default function Services() {
   return (
     <section
       ref={sectionRef}
-      className="services-section w-full bg-[#0f172a] py-16 md:py-24 px-4 md:px-8 lg:px-16 text-white overflow-hidden select-none relative"
+      className="services-section w-full py-16 md:py-24 px-4 md:px-8 lg:px-16 text-white overflow-hidden select-none relative"
     >
+      {/* ── BACKGROUND: shiny deep navy gradient matching the hero ── */}
+      <div className="absolute inset-0 services-bg" aria-hidden="true" />
+
+      {/* Diagonal line texture overlay — same as hero */}
+      <div className="pointer-events-none absolute inset-0 services-lines-overlay" aria-hidden="true" />
+
       {/* Ambient background glows */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] rounded-full bg-blue-700/10 blur-[130px]" />
-        <div className="absolute bottom-[-10%] right-[10%] w-[400px] h-[400px] rounded-full bg-purple-700/10 blur-[100px]" />
+        <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] rounded-full bg-blue-500/8 blur-[130px]" />
+        <div className="absolute bottom-[-10%] right-[10%] w-[400px] h-[400px] rounded-full bg-cyan-600/8 blur-[100px]" />
+        {/* Extra luminous center sheen for the "shiny" feel */}
+        <div className="absolute top-[10%] left-[50%] -translate-x-1/2 w-[700px] h-[300px] rounded-full bg-blue-400/5 blur-[120px]" />
       </div>
 
       <div className={`max-w-7xl mx-auto relative z-10 transition-all duration-700 ${visibleCards ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
@@ -325,14 +333,15 @@ export default function Services() {
         </div>
 
         {/* Main Frame */}
-        <div className="main-panel bg-[#1e293b]/40 border border-slate-800/80 rounded-[2rem] md:rounded-[2.5rem] p-4 md:p-8 lg:p-12 shadow-2xl backdrop-blur-md xl:pr-20">
+        <div className="main-panel bg-white/[0.04] border border-white/[0.08] rounded-[2rem] md:rounded-[2.5rem] p-4 md:p-8 lg:p-12 shadow-2xl backdrop-blur-md xl:pr-20">
           <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-stretch min-h-auto lg:min-h-[600px]">
 
             {/* LEFT: Navigation tabs — desktop */}
-            <div className="hidden md:flex flex-col justify-start items-center w-full lg:w-[220px] shrink-0 gap-2 relative border-r border-slate-800/60 pr-0 lg:pr-6 max-h-[600px]">
+            <div className="hidden md:flex flex-col justify-start items-center w-full lg:w-[220px] shrink-0 gap-2 relative border-r border-white/[0.07] pr-0 lg:pr-6 max-h-[600px]">
               <button
                 onClick={handlePrev}
-                className="text-slate-500 hover:text-cyan-400 transition-colors py-2 w-full text-center sticky top-0 bg-[#1e293b]/90 backdrop-blur-sm z-20 cursor-pointer hidden lg:block"
+                className="text-slate-500 hover:text-cyan-400 transition-colors py-2 w-full text-center sticky top-0 backdrop-blur-sm z-20 cursor-pointer hidden lg:block"
+                style={{ background: "transparent" }}
                 aria-label="Scroll Up"
               >
                 <ChevronUp size={22} className="mx-auto animate-bounce" />
@@ -351,7 +360,7 @@ export default function Services() {
                       className={`w-full max-w-[220px] px-4 py-3.5 rounded-2xl text-left font-bold transition-all duration-300 transform text-sm leading-tight ${
                         isActive
                           ? service.activeTabClass + " scale-[1.04] shadow-xl"
-                          : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                          : "text-slate-400 hover:text-white hover:bg-white/5"
                       }`}
                     >
                       {service.title}
@@ -362,7 +371,8 @@ export default function Services() {
 
               <button
                 onClick={handleNext}
-                className="text-slate-500 hover:text-cyan-400 transition-colors py-2 w-full text-center sticky bottom-0 bg-[#1e293b]/90 backdrop-blur-sm z-20 cursor-pointer hidden lg:block"
+                className="text-slate-500 hover:text-cyan-400 transition-colors py-2 w-full text-center sticky bottom-0 backdrop-blur-sm z-20 cursor-pointer hidden lg:block"
+                style={{ background: "transparent" }}
                 aria-label="Scroll Down"
               >
                 <ChevronDown size={22} className="mx-auto animate-bounce" />
@@ -370,10 +380,10 @@ export default function Services() {
             </div>
 
             {/* MOBILE: Prev/Next controls */}
-            <div className="md:hidden flex items-center justify-between bg-[#334155]/40 p-3 rounded-2xl border border-slate-700/30 shadow-inner">
+            <div className="md:hidden flex items-center justify-between bg-white/5 p-3 rounded-2xl border border-white/10 shadow-inner">
               <button
                 onClick={handlePrev}
-                className="p-2.5 rounded-xl bg-slate-800 text-white border border-slate-700 hover:bg-slate-700 active:scale-95 transition-all"
+                className="p-2.5 rounded-xl bg-white/10 text-white border border-white/10 hover:bg-white/15 active:scale-95 transition-all"
                 aria-label="Previous service"
               >
                 <ChevronLeft size={18} />
@@ -383,7 +393,7 @@ export default function Services() {
               </span>
               <button
                 onClick={handleNext}
-                className="p-2.5 rounded-xl bg-slate-800 text-white border border-slate-700 hover:bg-slate-700 active:scale-95 transition-all"
+                className="p-2.5 rounded-xl bg-white/10 text-white border border-white/10 hover:bg-white/15 active:scale-95 transition-all"
                 aria-label="Next service"
               >
                 <ChevronRight size={18} />
@@ -397,20 +407,16 @@ export default function Services() {
             >
               {/* Ambient overlays + service-bg-1.png texture */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[2rem] z-0" aria-hidden="true">
-                {/* Wavy/swirl background texture — same look as reference */}
                 <div
                   className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-20 mix-blend-overlay"
                   style={{ backgroundImage: "url('/service-bg-1.png')" }}
                 />
-                {/* Lighter radial sheen top-right */}
                 <div className="absolute top-[-20%] right-[-10%] w-[80%] h-[110%] rounded-full bg-white/25 blur-[100px] mix-blend-screen animate-pulse-slow" />
-                {/* Darker vignette bottom-left */}
                 <div className="absolute bottom-[-20%] left-[-10%] w-[80%] h-[90%] rounded-full bg-black/30 blur-[90px] mix-blend-multiply" />
-                {/* Extra warm highlight streak — gives the swirl dept like screenshot 2 */}
                 <div className="absolute top-[30%] right-[5%] w-[60%] h-[40%] rounded-full bg-white/10 blur-[60px] mix-blend-screen rotate-12" />
               </div>
 
-              {/* Text column — isolation prevents images from bleeding over it */}
+              {/* Text column */}
               <div className="flex-1 flex flex-col justify-between z-10 space-y-6 md:space-y-8 relative" style={{ isolation: "isolate" }}>
                 <div>
                   <h3 className="text-xl md:text-3xl lg:text-4xl font-black mb-4 md:mb-5 tracking-tight leading-snug drop-shadow-lg">
@@ -436,7 +442,6 @@ export default function Services() {
               {/* Image panels */}
               <div className="w-full xl:w-[42%] flex flex-row sm:flex-col xl:flex-col gap-4 md:gap-6 relative justify-center items-center xl:items-end z-20 mt-2 xl:mt-0 xl:-mr-20">
 
-                {/* Panel 1 — top */}
                 <div className="img-panel img-panel-1 w-full max-w-[160px] sm:max-w-[200px] md:max-w-[240px] aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.6)] border-2 border-white/20 xl:-mt-16 xl:-mr-6 hover:scale-105 hover:-rotate-2 transition-all duration-500 shrink-0">
                   <img
                     src={currentService.images[0]}
@@ -449,7 +454,6 @@ export default function Services() {
                   />
                 </div>
 
-                {/* Panel 2 — mid (offset stays within the image column — no leftward bleed into text) */}
                 <div className="img-panel img-panel-2 w-full max-w-[140px] sm:max-w-[180px] md:max-w-[210px] aspect-square rounded-2xl overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border-2 border-white/20 xl:translate-x-6 xl:rotate-3 hover:scale-105 transition-all duration-500 shrink-0">
                   <img
                     src={currentService.images[1]}
@@ -462,7 +466,6 @@ export default function Services() {
                   />
                 </div>
 
-                {/* Panel 3 — bottom, tilted at a distinct angle */}
                 <div className="img-panel img-panel-3 hidden sm:block w-full max-w-[180px] md:max-w-[260px] aspect-[16/10] rounded-2xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.65)] border-2 border-white/20 xl:-mb-14 xl:-mr-10 xl:-rotate-6 hover:scale-105 hover:-rotate-3 transition-all duration-500 shrink-0 xl:self-end">
                   <img
                     src={currentService.images[2]}
@@ -499,6 +502,42 @@ export default function Services() {
       </div>
 
       <style jsx global>{`
+        /* ══════════════════════════════════════════════════════
+           BACKGROUND — shiny deep navy matching the hero section
+           Replicates: rich electric navy core, brighter top edge,
+           subtle radial center highlight, diagonal line texture
+        ══════════════════════════════════════════════════════ */
+        .services-bg {
+          background:
+            /* Top-left bright edge — gives the "shiny" top lighting */
+            radial-gradient(ellipse 80% 40% at 10% 0%, #1a3a6e 0%, transparent 60%),
+            /* Center-right secondary glow */
+            radial-gradient(ellipse 60% 50% at 90% 50%, #0e2654 0%, transparent 55%),
+            /* Bottom depth darkening */
+            radial-gradient(ellipse 80% 50% at 50% 110%, #060f1f 0%, transparent 60%),
+            /* Base gradient — top is a lighter electric navy, bottom is deep dark */
+            linear-gradient(175deg, #0d2147 0%, #091a3a 30%, #060e22 65%, #040b1a 100%);
+        }
+
+        /* Diagonal line texture — same geometric crosshatch as the hero */
+        .services-lines-overlay {
+          background-image:
+            repeating-linear-gradient(
+              -55deg,
+              transparent,
+              transparent 40px,
+              rgba(255,255,255,0.018) 40px,
+              rgba(255,255,255,0.018) 41px
+            ),
+            repeating-linear-gradient(
+              35deg,
+              transparent,
+              transparent 60px,
+              rgba(255,255,255,0.012) 60px,
+              rgba(255,255,255,0.012) 61px
+            );
+        }
+
         .custom-scrollbar::-webkit-scrollbar { width: 3px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
@@ -512,12 +551,10 @@ export default function Services() {
         ────────────────────────────────────────── */
         @supports (animation-timeline: view()) {
           @media (min-width: 1024px) {
-            /* Section entrance parallax */
             .services-section {
               perspective: 1200px;
             }
 
-            /* Outer panel subtle 3D tilt on scroll */
             .main-panel {
               animation: panelScrollTilt linear both;
               animation-timeline: view();
@@ -526,7 +563,6 @@ export default function Services() {
               will-change: transform;
             }
 
-            /* Content card lift effect */
             .content-card {
               animation: contentCardParallax linear both;
               animation-timeline: view();
@@ -534,7 +570,6 @@ export default function Services() {
               will-change: transform;
             }
 
-            /* Images staggered parallax */
             .img-panel-1 {
               animation: imgParallaxA linear both;
               animation-timeline: view();
@@ -587,12 +622,10 @@ export default function Services() {
           100% { transform: translateY(-60px) scale(0.9) rotate(-2deg); filter: blur(0.5px); }
         }
 
-        /* Responsive image safety — ensure no broken aspect ratios */
         @media (max-width: 479px) {
           .img-panel { max-width: 120px !important; }
         }
 
-        /* Reduce motion preference — accessibility */
         @media (prefers-reduced-motion: reduce) {
           .img-panel,
           .main-panel,
