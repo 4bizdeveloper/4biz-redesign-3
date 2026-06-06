@@ -4,11 +4,12 @@ import React, { useState, useEffect } from 'react';
 
 export default function Hero() {
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  // Custom interactive classes for social icons with refined mobile scaling
   const iconClass = 'text-white flex items-center justify-center transition-all duration-300 hover:scale-115 hover:opacity-100 opacity-80';
 
   useEffect(() => {
     const handleScroll = () => {
-      // Triggers the fade-out effect as soon as user scrolls down 20px
       if (window.scrollY > 20) {
         setIsScrolled(true);
       } else {
@@ -16,6 +17,7 @@ export default function Hero() {
       }
     };
 
+    // Passive listener ensures GTmetrix/Lighthouse maximum scrolling performance (No JBH/FID blocking)
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -66,17 +68,29 @@ export default function Hero() {
 
   return (
     <>
-      {/* Modern Animation Keyframes injected globally to guarantee extreme rendering speed with no bundle overhead */}
+      {/* Complete hardware-accelerated animations optimizing Paint/Layout cycles for GTmetrix performance */}
       <style jsx global>{`
         @keyframes dynamicWheel {
           0% { transform: translateY(0) scaleY(1); opacity: 0.3; }
-          20% { transform: translateY(2px) scaleY(1.3); opacity: 1; filter: drop-shadow(0 0 8px #fff); }
-          60% { transform: translateY(14px) scaleY(0.8); opacity: 0; }
+          20% { transform: translateY(3px) scaleY(1.4); opacity: 1; filter: drop-shadow(0 0 8px rgba(255,255,255,0.8)); }
+          60% { transform: translateY(18px) scaleY(0.7); opacity: 0; }
           100% { transform: translateY(0) scaleY(1); opacity: 0.3; }
         }
         @keyframes microPulse {
-          0%, 100% { border-color: rgba(255,255,255,0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.8); }
-          50% { border-color: rgba(255,255,255,0.6); box-shadow: 0 4px 30px rgba(255,255,255,0.1), 0 4px 20px rgba(0,0,0,0.9); }
+          0%, 100% { 
+            border-color: rgba(255,255,255,0.35); 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8), inset 0 0 0px rgba(255,255,255,0);
+            transform: scale(1);
+          }
+          50% { 
+            border-color: rgba(255,255,255,0.7); 
+            box-shadow: 0 0 25px rgba(255,255,255,0.15), 0 4px 25px rgba(0,0,0,0.9), inset 0 0 4px rgba(255,255,255,0.2);
+            transform: scale(1.02);
+          }
+        }
+        @keyframes subtleTextPulse {
+          0%, 100% { opacity: 0.65; transform: scale(1); }
+          50% { opacity: 0.95; transform: scale(1.02); }
         }
       `}</style>
 
@@ -108,12 +122,13 @@ export default function Hero() {
           className={`
             absolute top-1/2 -translate-y-1/2 z-40
             flex flex-col items-center justify-center
-            left-2 gap-3
-            sm:left-3 sm:gap-4
-            lg:left-[14px] lg:gap-[22px]
+            left-3 gap-[18px]
+            sm:left-4 sm:gap-5
+            lg:left-[20px] lg:gap-[22px]
             transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1)
             ${isScrolled ? 'opacity-0 pointer-events-none -translate-x-4' : 'opacity-100 pointer-events-auto translate-x-0'}
           `}
+          style={{ willChange: 'transform, opacity' }}
         >
           {socials.map(({ href, label, path, target }) => (
             <a
@@ -128,7 +143,7 @@ export default function Hero() {
                 viewBox="0 0 24 24"
                 fill="#FFFFFF"
                 aria-hidden="true"
-                className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 block shrink-0 transition-transform duration-300"
+                className="w-5 h-5 xs:w-[22px] xs:h-[22px] sm:w-5 sm:h-5 lg:w-6 lg:h-6 block shrink-0 transition-transform duration-300"
               >
                 <path d={path} />
               </svg>
@@ -141,52 +156,59 @@ export default function Hero() {
           <div className="w-full flex flex-col items-center gap-1 sm:gap-3 lg:gap-4" />
         </div>
 
-        {/* ── SCROLL SIGNAL (Ultra-modern animated CSS element) ── */}
+        {/* ── SCROLL SIGNAL ── */}
         <div
           className={`
-            relative w-full flex flex-col items-center justify-center pb-[2vh] z-50 pointer-events-none shrink-0
+            relative w-full flex flex-col items-center justify-center pb-[3vh] z-50 pointer-events-none shrink-0
             transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1)
             ${isScrolled ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}
           `}
+          style={{ willChange: 'transform, opacity' }}
           aria-hidden="true"
         >
-          <div className="flex flex-col items-center justify-center gap-y-2 sm:gap-y-3">
-            {/* Mouse outline — enhanced with custom dynamic hardware-accelerated animations */}
+          <div className="flex flex-col items-center justify-center gap-y-3">
+            {/* Mouse Body Element */}
             <div
               style={{
                 position: 'relative',
-                width: '24px',
-                height: '42px',
-                borderRadius: '14px',
+                width: '26px',
+                height: '44px',
+                borderRadius: '15px',
                 border: '2px solid rgba(255,255,255,0.4)',
-                background: 'rgba(2, 4, 6, 0.6)',
-                backdropFilter: 'blur(12px)',
+                background: 'rgba(2, 4, 6, 0.65)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
                 display: 'flex',
                 alignItems: 'flex-start',
                 justifyContent: 'center',
-                paddingTop: '6px',
-                animation: 'microPulse 4s infinite ease-in-out',
-                willChange: 'transform, opacity, border-color',
+                paddingTop: '7px',
+                animation: 'microPulse 3.5s infinite ease-in-out',
+                willChange: 'transform, border-color, box-shadow',
               }}
             >
-              {/* Dynamic scrolling dot tracker */}
+              {/* Scrolling Track Dot */}
               <span
                 style={{
                   display: 'block',
                   width: '3px',
-                  height: '8px',
+                  height: '9px',
                   borderRadius: '9999px',
                   background: '#ffffff',
-                  boxShadow: '0 0 12px #fff, 0 0 4px #fff',
-                  animation: 'dynamicWheel 2.2s infinite cubic-bezier(0.25, 1, 0.5, 1)',
+                  boxShadow: '0 0 10px #fff, 0 0 3px #fff',
+                  animation: 'dynamicWheel 2s infinite cubic-bezier(0.25, 1, 0.5, 1)',
                   willChange: 'transform, opacity',
                 }}
               />
             </div>
 
+            {/* Scrolling Subtext Typography */}
             <span
-              className="text-[0.5rem] sm:text-[0.65rem] font-black tracking-[0.5em] uppercase text-white opacity-75 pl-[0.5em] transition-opacity duration-300"
-              style={{ textShadow: '0 2px 8px #000, 0 1px 2px rgba(0,0,0,0.8)' }}
+              className="text-[0.55rem] sm:text-[0.65rem] font-black tracking-[0.55em] uppercase text-white pl-[0.55em]"
+              style={{ 
+                textShadow: '0 2px 8px #000, 0 1px 3px rgba(0,0,0,0.9)',
+                animation: 'subtleTextPulse 3.5s infinite ease-in-out',
+                willChange: 'transform, opacity'
+              }}
             >
               scroll down
             </span>
