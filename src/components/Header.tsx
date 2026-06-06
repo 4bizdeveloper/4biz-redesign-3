@@ -40,10 +40,10 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  // Lock body scroll when menu is open — prevents background scroll on mobile
+  // Smoothly lock body scroll without triggering viewport height resizing glitches
   useEffect(() => {
     if (menuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.setProperty('overflow', 'hidden', 'important');
       document.body.style.touchAction = 'none';
     } else {
       document.body.style.overflow = '';
@@ -55,8 +55,9 @@ export default function Header() {
     };
   }, [menuOpen]);
 
+  // UPGRADED: Changed icon text base from white/80 to pure bright white
   const iconClass =
-    'text-white/80 hover:text-white hover:scale-110 transition-all duration-200 flex items-center justify-center';
+    'text-white hover:text-blue-400 hover:scale-110 transition-all duration-200 flex items-center justify-center';
 
   const navLinkClass =
     'text-2xl sm:text-3xl font-light tracking-wide text-white hover:text-blue-400 transition-colors duration-300 block py-1.5 sm:py-2';
@@ -137,28 +138,15 @@ export default function Header() {
         aria-modal="true"
         aria-label="Navigation Menu"
         className={`fixed inset-0 z-[60] bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950 text-white
-          overflow-y-auto overscroll-contain
-          transition-all duration-500 ease-in-out
+          overflow-y-auto overscroll-contain h-screen w-screen
+          transition-all duration-500 ease-out will-change-[transform,opacity]
           ${menuOpen
-            ? 'opacity-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 -translate-y-4 pointer-events-none'
+            ? 'opacity-100 translate-y-0 pointer-events-auto visible'
+            : 'opacity-0 -translate-y-6 pointer-events-none invisible'
           }`}
-        style={{ 
-          WebkitOverflowScrolling: 'touch',
-          willChange: 'transform, opacity',
-          transform: menuOpen ? 'translateY(0) translateZ(0)' : 'translateY(-1rem) translateZ(0)'
-        }}
       >
-        {/* Inner wrapper — Forced hardware paint acceleration layer via backface-visibility and perspective */}
-        <div 
-          className="min-h-full flex flex-col max-w-7xl mx-auto px-5 sm:px-10 lg:px-16"
-          style={{
-            backfaceVisibility: 'hidden',
-            WebkitBackfaceVisibility: 'hidden',
-            transform: 'translateZ(0)',
-            WebkitTransform: 'translateZ(0)'
-          }}
-        >
+        {/* Inner wrapper — Optimized rendering containment to ensure immediate mobile paint */}
+        <div className="min-h-full flex flex-col max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 transform-gpu">
 
           {/* ── Top bar ── */}
           <div className="flex justify-between items-center py-5 sm:py-6 flex-shrink-0">
@@ -199,26 +187,31 @@ export default function Header() {
           </nav>
 
           {/* ── Contact & Social ── */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-6 sm:pt-8 pb-10 sm:pb-12
-            text-xs sm:text-sm text-white/80">
+          {/* UPGRADED: Changed wrapper text color from text-white/80 to text-white */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-6 sm:pt-8 pb-12 sm:pb-16
+            text-xs sm:text-sm text-white content-start">
 
             {/* Address */}
             <div className="space-y-2 sm:space-y-3">
-              <h4 className="font-semibold text-white tracking-wider uppercase text-[10px] sm:text-xs opacity-60">
+              {/* UPGRADED: Removed opacity-60 to make this header pure white */}
+              <h4 className="font-semibold text-white tracking-wider uppercase text-[10px] sm:text-xs">
                 Contact Us
               </h4>
               <div className="space-y-3 font-light leading-relaxed text-[11px] sm:text-[13px]">
                 <p>
-                  <strong className="font-semibold block text-white/90">Dubai:</strong>
+                  {/* UPGRADED: Changed text-white/90 to text-white */}
+                  <strong className="font-semibold block text-white">Dubai:</strong>
                   Office 104, Crystal Building, Al Karama, Near ADCB Metro, Dubai, UAE
                 </p>
                 <p>
-                  <strong className="font-semibold block text-white/90">India (HiLITE):</strong>
+                  {/* UPGRADED: Changed text-white/90 to text-white */}
+                  <strong className="font-semibold block text-white">India (HiLITE):</strong>
                   Tower 2, HiLITE Business Park, Office 2723, 7th Floor, near HiLITE Mall,
                   Poovangal, Pantheeramkavu, Kozhikode, Kerala 673014, India
                 </p>
                 <p>
-                  <strong className="font-semibold block text-white/90">India (Nadakkave):</strong>
+                  {/* UPGRADED: Changed text-white/90 to text-white */}
+                  <strong className="font-semibold block text-white">India (Nadakkave):</strong>
                   5th Floor, C. M. Mathew Brothers Arcade, Kannur Rd, West Nadakkave,
                   Chakkorathukulam, Kozhikode, Kerala 673006, India
                 </p>
@@ -227,26 +220,31 @@ export default function Header() {
 
             {/* Communication */}
             <div className="space-y-2 sm:space-y-3">
-              <h4 className="font-semibold text-white tracking-wider uppercase text-[10px] sm:text-xs opacity-60">
+              {/* UPGRADED: Removed opacity-60 */}
+              <h4 className="font-semibold text-white tracking-wider uppercase text-[10px] sm:text-xs">
                 Say Hello
               </h4>
               <div className="space-y-1.5 font-light text-[11px] sm:text-[13px]">
                 <p>
-                  <span className="inline-block w-16 text-white/60">Email:</span>
+                  {/* UPGRADED: Changed text-white/60 to text-white */}
+                  <span className="inline-block w-16 text-white">Email:</span>
                   <a href="mailto:info@4bizinternational.com" className={contactLinkClass}>
                     info@4bizinternational.com
                   </a>
                 </p>
                 <p>
-                  <span className="inline-block w-16 text-white/60">UAE:</span>
+                  {/* UPGRADED: Changed text-white/60 to text-white */}
+                  <span className="inline-block w-16 text-white">UAE:</span>
                   <a href="tel:+971527925100" className={contactLinkClass}>+971 52 792 5100</a>
                 </p>
                 <p>
-                  <span className="inline-block w-16 text-white/60">India:</span>
+                  {/* UPGRADED: Changed text-white/60 to text-white */}
+                  <span className="inline-block w-16 text-white">India:</span>
                   <a href="tel:+919895717879" className={contactLinkClass}>+91 98957 17879</a>
                 </p>
                 <p>
-                  <span className="inline-block w-16 text-white/60">Whatsapp:</span>
+                  {/* UPGRADED: Changed text-white/60 to text-white */}
+                  <span className="inline-block w-16 text-white">Whatsapp:</span>
                   <a
                     href="https://wa.me/919895717879?text=Hello%204Biz%20International%2C%20I%20am%20interested%20in%20your%20services."
                     target="_blank"
@@ -261,7 +259,8 @@ export default function Header() {
 
             {/* Social */}
             <div className="space-y-2 sm:space-y-3 sm:col-span-2 lg:col-span-1">
-              <h4 className="font-semibold text-white tracking-wider uppercase text-[10px] sm:text-xs opacity-60">
+              {/* UPGRADED: Removed opacity-60 */}
+              <h4 className="font-semibold text-white tracking-wider uppercase text-[10px] sm:text-xs">
                 Get Social
               </h4>
               <div className="flex flex-wrap gap-4 sm:gap-5 items-center pt-1">
@@ -309,7 +308,7 @@ export default function Header() {
               </div>
             </div>
           </div>
-          {/* End of inner wrapper — safe bottom padding handles notched phones */}
+
         </div>
       </div>
     </>
