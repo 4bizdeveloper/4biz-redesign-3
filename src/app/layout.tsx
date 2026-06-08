@@ -5,6 +5,9 @@ import Footer from "@/components/Footer";
 import AIChatButton from "@/components/AIChatButton";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
+
+
+
 export const metadata: Metadata = {
   title: "4Biz International LLC | Digital Marketing Agency in Dubai",
   description: "4Biz International is a trusted digital marketing agency in Dubai offering SEO, web development, CRM solutions and business growth services.",
@@ -32,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="relative z-10 w-full min-h-screen">
           {children}
         </main>
-        
+     
         <Footer />
 
       </body>
