@@ -71,7 +71,7 @@ const LocationCard = memo(({ loc, index }: { loc: Location; index: number }) => 
           </div>
         </a>
 
-        {/* EMBEDDED GOOGLE MAP IFRAME */}
+        {/* NATIVE GOOGLE MAP EMBED IFRAME - RUNNING ON ISOLATED SECURITY WRAPPER */}
         <iframe 
           src={loc.src} 
           width="100%" 
@@ -116,24 +116,27 @@ const MapSection = () => {
       title: "Global Headquarters",
       subtitle: "International Enterprise Solutions Hub",
       address: "Crystal Building, Al Karama, Dubai",
-      src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.3587889155985!2d55.3013890762391!3d25.25854812903741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f433948ec17b9%3A0x7d6b38c234a99fc!2sCrystal%20Building!5e0!3m2!1sen!2sae!4v1710000000000!5m2!1sen!2sae",
-      link: "https://maps.google.com/?q=Crystal+Building+Al+Karama+Dubai"
+      // Exact GMB native embed URL provided for Dubai branch
+      src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.846921067268!2d55.2973838!3d25.2420804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5d3f84a0cd39%3A0x6834edd5ea42e51d!2s4BIZ%20International%20LLC!5e0!3m2!1sen!2sae!4v1780903880922!5m2!1sen!2sae",
+      link: "https://maps.app.goo.gl/32WmFGVmDaoCesDK9"
     },
     {
       city: "Kozhikode, IN",
       title: "Regional Tech Node",
       subtitle: "Offshore Software Development Center",
       address: "HiLite Business Park, Calicut, Kerala",
-      src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.1070549419163!2d75.8306056760155!3d11.253503550212891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba65be1b3b246c3%3A0x86fdf245b98ec3a5!2sHilite%20Business%20Park!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin",
-      link: "https://maps.google.com/?q=HiLite+Business+Park+Calicut"
+      // Exact GMB native embed URL provided for hilite business park branch
+      src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.1893273073897!2d75.8334759!3d11.247478800000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba65b26cb564cd7%3A0x6e4ea8183d688e13!2s4biz%20International!5e0!3m2!1sen!2sae!4v1780903901319!5m2!1sen!2sae",
+      link: "https://maps.app.goo.gl/ehYp13MsiQJxXmebA"
     },
     {
       city: "Nadakkavu, IN",
       title: "Operational Hub",
       subtitle: "Next-Gen IT Infrastructure & Operations",
       address: "4Biz International Tower, Calicut",
-      src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3912.8718919632824!2d75.78201237601576!3d11.27083335000574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba6594247fb4df9%3A0x334bfbbfec87ebf4!2sNadakkavu%2C%20Kozhikode%2C%20Kerala!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin",
-      link: "https://maps.google.com/?q=Nadakkavu+Kozhikode+Kerala"
+      // Exact GMB native embed URL provided for nadakkavu branch 
+      src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3912.778183213242!2d75.7727812!3d11.277709500000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba65f2df7358683%3A0xdd71f8c39ea9198!2s4biz%20International%20-%20Nadakkavu!5e0!3m2!1sen!2sae!4v1780903922115!5m2!1sen!2sae",
+      link: "https://maps.app.goo.gl/M1xzYiJ6AARUdH9i8"
     }
   ];
 
