@@ -58,8 +58,9 @@ export default function Header() {
   const iconClass =
     'text-white hover:text-blue-400 hover:scale-110 transition-all duration-200 flex items-center justify-center min-w-[24px] min-h-[24px]';
 
+  // Desktop text sizes slightly reduced (from maxing out at lg:text-6xl down to xl:text-5xl / 2xl:text-5xl)
   const navLinkClass =
-    'text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-wide text-white hover:text-blue-400 transition-colors duration-300 block py-2 lg:py-3.5 break-words';
+    'text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl 2xl:text-5xl font-light tracking-wide text-white hover:text-blue-400 transition-colors duration-300 block py-2 lg:py-3.5 break-words';
 
   const contactLinkClass = 'hover:text-blue-400 transition-colors duration-200 break-all';
 
