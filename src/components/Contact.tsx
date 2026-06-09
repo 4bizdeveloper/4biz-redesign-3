@@ -8,9 +8,11 @@ import {
   RiErrorWarningLine, 
   RiLoader4Line, 
   RiShieldCheckLine, 
-  RiRefreshLine 
+  RiRefreshLine,
+  RiMailLine,
+  RiWhatsappLine,
+  RiMapPinLine
 } from 'react-icons/ri';
-import Image from 'next/image';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 
@@ -77,36 +79,36 @@ const CaptchaWidget = memo(({ onVerify }: { onVerify: (val: boolean) => void }) 
 
   return (
     <motion.div
-      className="captcha-container-isolated rounded-xl overflow-hidden"
+      className="captcha-container-isolated rounded-xl overflow-hidden backdrop-blur-md"
       animate={shake ? { x: [-6, 6, -5, 5, -3, 3, 0] } : {}}
       transition={{ duration: 0.45 }}
       style={{
-        background: 'rgba(255,255,255,0.025)',
-        border: verified ? '1px solid rgba(34,211,238,0.45)' : '1px solid rgba(255,255,255,0.08)',
-        boxShadow: verified ? '0 0 20px rgba(34,211,238,0.1)' : 'none',
+        background: 'rgba(34, 211, 238, 0.04)',
+        border: '1px solid rgba(34, 211, 238, 0.3)',
+        boxShadow: '0 0 25px rgba(34, 211, 238, 0.1)',
       }}
     >
-      <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-white/5">
-        <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-white/30 flex items-center gap-1.5">
-          <RiShieldCheckLine className="text-xs" /> Security Protocol
+      <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-cyan-500/20">
+        <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-cyan-400 flex items-center gap-1.5 font-bold">
+          <RiShieldCheckLine className="text-sm text-purple-400" /> Security Protocol
         </span>
         {!verified && (
-          <button type="button" onClick={refresh} className="text-white/25 hover:text-cyan-400 transition-colors">
-            <RiRefreshLine className="text-sm" />
+          <button type="button" onClick={refresh} className="text-cyan-400/70 hover:text-cyan-300 transition-colors">
+            <RiRefreshLine className="text-base" />
           </button>
         )}
       </div>
 
       <AnimatePresence mode="wait">
         {verified ? (
-          <motion.div key="verified" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-3 px-4 py-3">
-            <RiCheckboxCircleLine className="text-cyan-400 text-lg shrink-0" />
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-cyan-400">Identity Confirmed</span>
+          <motion.div key="verified" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-3 px-4 py-4">
+            <RiCheckboxCircleLine className="text-emerald-400 text-xl shrink-0" />
+            <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-emerald-400 font-bold">Identity Confirmed</span>
           </motion.div>
         ) : (
-          <motion.div key="challenge" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-3 px-4 py-3">
-            <div className="shrink-0 font-mono text-base tracking-tight select-none bg-gradient-to-br from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              {captcha.a} {captcha.op} {captcha.b} = ?
+          <motion.div key="challenge" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-3 px-4 py-4">
+            <div className="shrink-0 font-mono text-lg font-bold tracking-tight select-none bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              {captcha.a} {captcha.op} {captcha.b} =
             </div>
             <div className="flex-1 flex items-center gap-2">
               <input
@@ -114,13 +116,13 @@ const CaptchaWidget = memo(({ onVerify }: { onVerify: (val: boolean) => void }) 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Answer"
-                className="w-full min-w-0 text-sm font-mono text-white bg-transparent border-b border-white/15 focus:border-cyan-400 outline-none py-1 transition-colors placeholder:text-white/20"
+                className="w-full min-w-0 text-base font-mono text-white bg-white/5 border-b-2 border-cyan-400/40 focus:border-purple-400 outline-none py-1 px-2 rounded-t transition-colors placeholder:text-white/30"
               />
               <button
                 type="button"
                 onClick={handleCheck}
                 disabled={!input}
-                className="shrink-0 text-[9px] font-mono tracking-[0.2em] uppercase px-3 py-1.5 rounded-lg border border-cyan-400/20 text-cyan-400 disabled:opacity-30"
+                className="shrink-0 text-[10px] font-mono font-bold tracking-[0.2em] uppercase px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-md active:scale-95 disabled:opacity-30 disabled:scale-100 transition-all"
               >
                 Verify
               </button>
@@ -132,45 +134,6 @@ const CaptchaWidget = memo(({ onVerify }: { onVerify: (val: boolean) => void }) 
   );
 });
 CaptchaWidget.displayName = 'CaptchaWidget';
-
-// ─── HOLOGRAPHIC CORE ─────────────────────────────────────────────────────────
-const HolographicCore = memo(() => (
-  <div className="flex justify-center order-1 lg:order-1 relative select-none pointer-events-none mb-8 lg:mb-0 transform-gpu">
-    <motion.div
-      className="relative w-full max-w-[320px] md:max-w-[450px] aspect-square flex items-center justify-center will-change-transform"
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <div className="absolute w-[70%] h-[70%] bg-cyan-500/10 rounded-full blur-[60px] md:blur-[100px] -z-10 transform-gpu" />
-      <div className="absolute inset-0 border border-white/5 rounded-full scale-110" />
-      <div className="absolute inset-4 border border-dashed border-cyan-500/20 rounded-full animate-spin-ultra-slow" />
-
-      <div className="absolute inset-0 rounded-full animate-spin-reverse-slow">
-        <div className="absolute top-0 left-1/2 w-1 h-1 bg-cyan-400 rounded-full shadow-[0_0_10px_#22d3ee] opacity-80" />
-        <div className="absolute bottom-0 left-1/2 w-1 h-1 bg-purple-500 rounded-full shadow-[0_0_10px_#a855f7] opacity-80" />
-      </div>
-
-      <motion.div
-        className="relative z-10 w-[82%] h-[82%] rounded-full border border-white/10 p-1 bg-[#050510]/40 backdrop-blur-sm shadow-2xl overflow-hidden"
-        animate={{ y: [-6, 6, -6] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <div className="w-full h-full rounded-full relative overflow-hidden mask-radial transform-gpu">
-          <Image
-            src="/images/itplanet.avif"
-            alt="Holographic Planet"
-            fill
-            priority
-            className="object-cover saturate-[1.3] brightness-[0.8] mix-blend-lighten opacity-70 transform-gpu"
-          />
-        </div>
-      </motion.div>
-    </motion.div>
-  </div>
-));
-HolographicCore.displayName = 'HolographicCore';
 
 // ─── MAIN CONTACT SECTION ─────────────────────────────────────────────────────
 const Contact = () => {
@@ -272,132 +235,294 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="py-12 md:py-20 px-4 md:px-10 relative bg-transparent overflow-hidden transform-gpu"
+      className="py-16 md:py-28 px-4 md:px-10 relative overflow-hidden transform-gpu"
       style={{
+        background: 'radial-gradient(circle at 0% 0%, #0c0a24 0%, #04040d 70%), radial-gradient(circle at 100% 100%, #160a2b 0%, #04040d 80%)',
         contentVisibility: 'auto',
         contain: 'paint layout',
-        containmentIntrinsicSize: '1px 700px',
+        containmentIntrinsicSize: '1px 1000px',
       } as React.CSSProperties}
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-        <HolographicCore />
+      {/* High-Tech Dynamic Aurora Glows */}
+      <div className="absolute top-10 left-10 w-[280px] md:w-[450px] h-[280px] md:h-[450px] bg-gradient-to-tr from-cyan-500/15 to-purple-500/5 rounded-full blur-[100px] md:blur-[140px] pointer-events-none transform-gpu animate-pulse" />
+      <div className="absolute bottom-10 right-10 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-gradient-to-bl from-purple-500/15 to-teal-500/5 rounded-full blur-[120px] md:blur-[160px] pointer-events-none transform-gpu" />
 
-        <div className="order-2 lg:order-2">
-          <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <h3 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tighter text-center lg:text-left">
-              Contact Us <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 drop-shadow-[0_0_15px_rgba(34,211,238,0.2)]">
-                To Scale your Business
-              </span>
-            </h3>
+      <div className="max-w-7xl mx-auto relative z-10">
+        
+        {/* Modern Centered Header Section */}
+        <div className="text-center mb-14 md:mb-20">
+          <motion.h3 
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter"
+          >
+            Contact Us <br className="xs:hidden" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-500 drop-shadow-[0_0_20px_rgba(34,211,238,0.25)]">
+              To Scale your Business
+            </span>
+          </motion.h3>
+          <div className="w-20 md:w-28 h-[3px] bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-500 mx-auto mt-5 md:mt-6 rounded-full" />
+        </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 max-w-[550px] mx-auto lg:mx-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input required name="name" placeholder="Full Name *" className="contact-input" />
-                <input required name="email" type="email" placeholder="Email Address *" className="contact-input" />
+        {/* 2-Column Desktop Grid / Stacked Mobile Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+          
+          {/* COLUMN 1: INFORMATION CARDS STACKED (5 Columns) */}
+          <div className="lg:col-span-5 space-y-5 md:space-y-6 order-2 lg:order-1">
+            
+            {/* Mail Infrastructure Card */}
+            <a href="mailto:info@4bizinternational.com" className="info-gradient-card group flex items-center gap-4 p-5 rounded-2xl border border-cyan-500/15 backdrop-blur-md w-full">
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 text-xl group-hover:bg-cyan-500 group-hover:text-black transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.1)] shrink-0">
+                <RiMailLine />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase font-bold">Mail Infrastructure</p>
+                <p className="text-sm md:text-base font-semibold text-white truncate break-all mt-0.5">info@4bizinternational.com</p>
+              </div>
+            </a>
+
+            {/* HQ Telecoms / WhatsApp Card (Perfectly Stacked Below) */}
+            <div className="info-gradient-card flex items-start gap-4 p-5 rounded-2xl border border-purple-500/15 backdrop-blur-md w-full">
+              <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 text-xl shadow-[0_0_15px_rgba(168,85,247,0.1)] shrink-0">
+                <RiWhatsappLine />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] font-mono tracking-widest text-purple-400 uppercase font-bold">HQ Telecoms / WhatsApp</p>
+                <div className="space-y-0.5 mt-1">
+                  <p className="text-sm font-semibold text-white flex items-center gap-1.5">
+                    +971 52 79 25 100 <span className="text-[9px] bg-cyan-500/15 text-cyan-300 px-1.5 py-0.5 rounded font-mono font-normal tracking-normal">(DUBAI)</span>
+                  </p>
+                  <p className="text-sm font-semibold text-white flex items-center gap-1.5">
+                    +91 98957 17879 <span className="text-[9px] bg-purple-500/15 text-purple-300 px-1.5 py-0.5 rounded font-mono font-normal tracking-normal">(INDIA)</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Dubai Location */}
+            <div className="info-gradient-card p-5 md:p-6 rounded-2xl border border-cyan-500/15 backdrop-blur-md relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 rounded-full blur-2xl pointer-events-none" />
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 text-lg shrink-0 mt-0.5">
+                  <RiMapPinLine />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white tracking-wide uppercase flex items-center gap-2 flex-wrap">
+                    Dubai Corporate Hub <span className="px-2 py-0.5 text-[9px] bg-cyan-500/20 text-cyan-300 rounded font-mono normal-case tracking-normal">Global HQ</span>
+                  </h4>
+                  <p className="text-xs text-white/70 mt-2 leading-relaxed font-medium">
+                    Crystal Building - Office # 104 - 2C St - near ADCB Metro Station - Al Karama - Dubai, UAE
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* India Location 1 */}
+            <div className="info-gradient-card p-5 md:p-6 rounded-2xl border border-purple-500/15 backdrop-blur-md relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl pointer-events-none" />
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 text-lg shrink-0 mt-0.5">
+                  <RiMapPinLine />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white tracking-wide uppercase flex items-center gap-2 flex-wrap">
+                    India HiLite Business Park <span className="px-2 py-0.5 text-[9px] bg-purple-500/20 text-purple-300 rounded font-mono normal-case tracking-normal">Tech Wing</span>
+                  </h4>
+                  <p className="text-xs text-white/70 mt-2 leading-relaxed font-medium">
+                    Tower 2, HiLITE Business Park, Office 2723, 7th Floor, near HiLITE Mall, Poovangal, Pantheeramkavu, Kozhikode, Kerala 673014, India
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* India Location 2 */}
+            <div className="info-gradient-card p-5 md:p-6 rounded-2xl border border-teal-500/15 backdrop-blur-md relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/5 rounded-full blur-2xl pointer-events-none" />
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-teal-500/10 flex items-center justify-center text-teal-400 text-lg shrink-0 mt-0.5">
+                  <RiMapPinLine />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white tracking-wide uppercase flex items-center gap-2 flex-wrap">
+                    India Nadakkave Office <span className="px-2 py-0.5 text-[9px] bg-teal-500/20 text-teal-300 rounded font-mono normal-case tracking-normal">Operations</span>
+                  </h4>
+                  <p className="text-xs text-white/70 mt-2 leading-relaxed font-medium">
+                    5th Floor, C. M. Mathew Brothers Arcade, Kannur Rd, near Hotel Westway, Vikas Nagar Housing Colony, West Nadakkave, Chakkorathukulam, Kozhikode, Kerala 673006, India
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* COLUMN 2: INDUSTRIAL CYBERWARE PORTAL FORM CONTAINER (7 Columns) */}
+          <div className="lg:col-span-7 order-1 lg:order-2">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.98, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="tablet-frame relative rounded-2xl md:rounded-3xl border-4 border-[#1e1e38] bg-[#0c0c1d]/90 shadow-[0_0_50px_rgba(34,211,238,0.15)] overflow-hidden"
+            >
+              {/* Tablet Top Header Trim */}
+              <div className="w-full bg-[#14142b] px-4 py-3.5 flex items-center justify-between border-b border-white/5">
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
+                </div>
+                <div className="w-16 h-2.5 bg-[#070714] rounded-full mx-auto absolute left-1/2 -translate-x-1/2 hidden sm:block" />
+                <div className="text-[9px] md:text-[10px] font-mono text-cyan-400/70 font-bold tracking-wider uppercase pl-2 truncate max-w-[210px] sm:max-w-none">
+                  Secure Communication Portal
+                </div>
               </div>
 
-              <div className="phone-input-container">
-                {countryCode ? (
-                  <PhoneInput
-                    key={countryCode} 
-                    defaultCountry={countryCode}
-                    value={phone}
-                    className="w-full"
-                    onChange={(phoneStr, metaData) => {
-                      setPhone(phoneStr);
-                      if (metaData && metaData.country && metaData.country.iso2) {
-                        setCountryCode(metaData.country.iso2.toLowerCase());
-                      }
-                    }}
-                    required
-                  />
-                ) : (
-                  <div className="w-full h-[54px] bg-white/5 animate-pulse rounded-xl" />
-                )}
+              {/* Form Body Fields */}
+              <div className="p-5 md:p-8 space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="relative group w-full">
+                      <input required name="name" placeholder="Full Name *" className="contact-input" />
+                    </div>
+                    <div className="relative group w-full">
+                      <input required name="email" type="email" placeholder="Email Address *" className="contact-input" />
+                    </div>
+                  </div>
+
+                  <div className="phone-input-container">
+                    {countryCode ? (
+                      <PhoneInput
+                        key={countryCode} 
+                        defaultCountry={countryCode}
+                        value={phone}
+                        className="w-full"
+                        onChange={(phoneStr, metaData) => {
+                          setPhone(phoneStr);
+                          if (metaData && metaData.country && metaData.country.iso2) {
+                            setCountryCode(metaData.country.iso2.toLowerCase());
+                          }
+                        }}
+                        required
+                      />
+                    ) : (
+                      <div className="w-full h-[56px] bg-white/5 animate-pulse rounded-xl" />
+                    )}
+                  </div>
+
+                  <textarea name="message" placeholder="Mission Brief / Message Details (Optional)" className="contact-input h-36 resize-none" />
+
+                  {/* Security Captcha Integration Block */}
+                  <div className="captcha-block-wrapper">
+                    <CaptchaWidget key={captchaResetKey} onVerify={setCaptchaPassed} />
+                  </div>
+
+                  {/* High-Impact Uplink Button */}
+                  <button
+                    disabled={status === 'sending' || !captchaPassed}
+                    className="w-full py-4 bg-gradient-to-r from-cyan-500 via-teal-400 to-purple-600 text-white font-black rounded-xl tracking-[0.2em] uppercase text-[11px] flex items-center justify-center gap-3 active:scale-[0.99] transition-all disabled:opacity-40 disabled:scale-100 transform-gpu shadow-lg shadow-cyan-500/20 hover:brightness-110"
+                  >
+                    {status === 'sending' ? (
+                      <>
+                        <RiLoader4Line className="animate-spin text-xl" /> ESTABLISHING UPLINK...
+                      </>
+                    ) : (
+                      <>
+                        ESTABLISH LINK <RiRocketLine className="text-xl" />
+                      </>
+                    )}
+                  </button>
+
+                  {/* Animated Response Feedback Toasts */}
+                  <AnimatePresence mode="wait">
+                    {status !== 'idle' && status !== 'sending' && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }} 
+                        animate={{ opacity: 1, y: 0 }} 
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className={`p-4 border-2 rounded-xl flex items-center gap-3 text-xs font-mono leading-tight ${
+                          status === 'success' 
+                            ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400' 
+                            : 'bg-rose-500/10 border-rose-500/40 text-rose-400'
+                        }`}
+                      >
+                        {status === 'success' ? (
+                          <RiCheckboxCircleLine className="text-2xl shrink-0" />
+                        ) : (
+                          <RiErrorWarningLine className="text-2xl shrink-0" />
+                        )}
+                        <span className="uppercase tracking-wider font-bold">
+                          {status === 'success' ? 'TRANSMISSION SUCCESSFUL. SECURE UPLINK VERIFIED.' : `CRITICAL ERROR: ${errorMsg}`}
+                        </span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </form>
               </div>
+            </motion.div>
+          </div>
 
-              <textarea name="message" placeholder="Mission Brief (Optional)" className="contact-input h-32 resize-none" />
-
-              <div className="captcha-block-wrapper">
-                <CaptchaWidget key={captchaResetKey} onVerify={setCaptchaPassed} />
-              </div>
-
-              <button
-                disabled={status === 'sending' || !captchaPassed}
-                className="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold rounded-xl tracking-[0.2em] uppercase text-[10px] flex items-center justify-center gap-3 active:scale-[0.98] transition-all disabled:opacity-50 transform-gpu shadow-lg shadow-cyan-500/10"
-              >
-                {status === 'sending' ? (
-                  <>
-                    <RiLoader4Line className="animate-spin text-lg" /> ESTABLISHING UPLINK...
-                  </>
-                ) : (
-                  <>
-                    ESTABLISH LINK <RiRocketLine className="text-lg" />
-                  </>
-                )}
-              </button>
-
-              <AnimatePresence mode="wait">
-                {status !== 'idle' && status !== 'sending' && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }}
-                    className={`p-4 border rounded-xl flex items-center gap-3 text-[11px] font-mono leading-tight ${status === 'success' ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
-                    {status === 'success' ? <RiCheckboxCircleLine className="text-xl shrink-0" /> : <RiErrorWarningLine className="text-xl shrink-0" />}
-                    <span className="uppercase tracking-wider">
-                      {status === 'success' ? 'TRANSMISSION SUCCESSFUL. SECURE UPLINK VERIFIED.' : `CRITICAL ERROR: ${errorMsg}`}
-                    </span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </form>
-          </motion.div>
         </div>
       </div>
 
+      {/* Embedded Global Cross-Browser Layout Fixes */}
       <style jsx global>{`
+        .info-gradient-card {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+          transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .info-gradient-card:hover {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+          transform: translateY(-2px);
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.45);
+        }
+
         .contact-input {
           width: 100%;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.08);
-          padding: 1rem;
+          background: rgba(34, 211, 238, 0.03) !important;
+          border: 1px solid rgba(34, 211, 238, 0.2) !important;
+          padding: 1.1rem;
           color: white;
           border-radius: 12px;
           outline: none;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           font-size: 15px;
-          height: 54px;
+          height: 56px;
+          box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
         .contact-input:focus {
-          border-color: #22d3ee;
-          background: rgba(255,255,255,0.06);
-          box-shadow: 0 0 25px rgba(34,211,238,0.15);
+          border-color: #a855f7 !important;
+          background: rgba(34, 211, 238, 0.06) !important;
+          box-shadow: 0 0 25px rgba(34, 211, 238, 0.2), inset 0 2px 4px rgba(0,0,0,0.2);
           transform: translateY(-1px);
         }
         textarea.contact-input {
-          height: 128px !important;
+          height: 144px !important;
         }
         
+        /* ─── FIXED PHONE INPUT COMPONENT STRUCTURAL LAYOUT ─── */
         .phone-input-container {
           width: 100%;
-          display: flex !important;
-          height: 54px !important;
+          height: 56px !important;
           position: relative;
           z-index: 50 !important; 
         }
         .react-international-phone-input-container {
           width: 100% !important;
-          display: flex !important;
-          align-items: stretch !important;
-          height: 54px !important;
-          background: rgba(255,255,255,0.03) !important;
-          border: 1px solid rgba(255,255,255,0.08) !important;
+          height: 56px !important;
+          background: rgba(34, 211, 238, 0.03) !important;
+          border: 1px solid rgba(34, 211, 238, 0.2) !important;
           border-radius: 12px !important;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+          display: flex !important;
+          align-items: center !important;
         }
         .react-international-phone-input-container:focus-within {
-          border-color: #22d3ee !important;
-          background: rgba(255,255,255,0.06) !important;
-          box-shadow: 0 0 25px rgba(34,211,238,0.15);
+          border-color: #a855f7 !important;
+          background: rgba(34, 211, 238, 0.06) !important;
+          box-shadow: 0 0 25px rgba(34, 211, 238, 0.2);
           transform: translateY(-1px);
         }
         .react-international-phone-input {
@@ -412,13 +537,14 @@ const Contact = () => {
           outline: none !important;
         }
         
+        /* Flag selector layout alignment fix */
         .react-international-phone-selector-button {
           background: transparent !important;
           border: none !important;
-          border-right: 1px solid rgba(255,255,255,0.08) !important;
+          border-right: 1px solid rgba(34, 211, 238, 0.2) !important;
           height: 100% !important;
-          width: 54px !important;
-          min-width: 54px !important;
+          width: 56px !important;
+          min-width: 56px !important;
           padding: 0 !important;
           display: flex !important;
           align-items: center !important;
@@ -428,20 +554,23 @@ const Contact = () => {
           cursor: pointer !important;
         }
         
+        /* ─── PREMIUM WHITE BACKGROUND COUNTRY SELECTOR DROPDOWN ─── */
         .react-international-phone-country-selector-dropdown,
         ul.react-international-phone-country-selector-dropdown {
-          background-color: #ffffff !important;
+          background-color: #ffffff !important; /* Force solid white background */
           background: #ffffff !important;
-          border: 1px solid #cbd5e1 !important;
+          border: 1px solid #cbd5e1 !important; /* Slate boundary line */
           border-radius: 12px !important;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85) !important;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2) !important;
           padding: 8px !important;
           max-height: 250px !important;
-          width: 270px !important;
+          width: 280px !important;
           position: absolute !important;
           top: 100% !important;
           left: 0 !important;
           z-index: 9999999 !important; 
+          scrollbar-width: thin;
+          scrollbar-color: #cbd5e1 transparent;
         }
         
         .captcha-block-wrapper,
@@ -453,44 +582,40 @@ const Contact = () => {
         ul.react-international-phone-country-selector-dropdown li,
         li.react-international-phone-country-selector-list-item {
           background-color: transparent !important;
+          background: transparent !important;
           padding: 10px 12px !important;
-          border-radius: 6px !important;
+          border-radius: 8px !important;
           display: flex !important;
           align-items: center !important;
-          gap: 8px !important;
+          gap: 10px !important;
+          transition: background 0.2s ease;
         }
         
+        /* Typography overrides for visible dark text on white background */
         .react-international-phone-country-selector-list-item-name,
         .react-international-phone-country-selector-list-item-dial-code,
         li.react-international-phone-country-selector-list-item span,
         li.react-international-phone-country-selector-list-item * {
-          color: #000000 !important;
+          color: #0f172a !important; /* Slate-900 high contrast dark text */
           text-shadow: none !important;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+          font-family: system-ui, -apple-system, sans-serif !important;
           font-size: 14px !important;
-          font-weight: 600 !important;
+          font-weight: 500 !important;
         }
         
+        /* Smooth light-mode hover indicators inside white dropdown menu */
         li.react-international-phone-country-selector-list-item:hover,
         li.react-international-phone-country-selector-list-item:hover * {
-          background-color: #f1f5f9 !important;
-          color: #000000 !important;
+          background-color: #f1f5f9 !important; /* Soft Slate-100 hover bg */
+          color: #0284c7 !important; /* High-contrast Sky-600 hover text */
         }
         
+        /* Active / Selected item properties inside dropdown elements */
         li.react-international-phone-country-selector-list-item[aria-selected="true"],
         li.react-international-phone-country-selector-list-item[aria-selected="true"] * {
-          background-color: #cbd5e1 !important;
-          color: #000000 !important;
+          background-color: #38bdf8 !important; /* Distinct Sky-400 highlight */
+          color: #000000 !important; /* Solid black text for optimal readability */
         }
-
-        .mask-radial {
-          mask-image: radial-gradient(circle, black 50%, transparent 100%);
-          -webkit-mask-image: radial-gradient(circle, black 50%, transparent 100%);
-        }
-        @keyframes spin-ultra-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes spin-reverse-slow { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-        .animate-spin-ultra-slow { animation: spin-ultra-slow 60s linear infinite; }
-        .animate-spin-reverse-slow { animation: spin-reverse-slow 40s linear infinite; }
       `}</style>
     </section>
   );
