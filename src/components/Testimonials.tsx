@@ -82,27 +82,28 @@ export default function Testimonials() {
   // Animation variants configuration mapped with direct typescript literal constraints
   const slideVariants: Variants = {
     enter: (dir: number) => ({
-      x: dir > 0 ? 100 : -100,
+      x: dir > 0 ? 40 : -40,
       opacity: 0,
-      scale: 0.95,
+      scale: 0.98,
     }),
     center: {
       x: 0,
       opacity: 1,
       scale: 1,
       transition: {
-        x: { type: "spring" as const, stiffness: 300, damping: 30 },
-        opacity: { duration: 0.4 },
-        scale: { duration: 0.4 }
+        x: { type: "spring" as const, stiffness: 260, damping: 28 },
+        opacity: { duration: 0.35 },
+        scale: { duration: 0.35 }
       }
     },
     exit: (dir: number) => ({
-      x: dir > 0 ? -100 : 100,
+      position: "absolute" as const, // Prevents layout snapping during dynamic container exit
+      x: dir > 0 ? -40 : 40,
       opacity: 0,
-      scale: 0.95,
+      scale: 0.98,
       transition: {
-        x: { type: "spring" as const, stiffness: 300, damping: 30 },
-        opacity: { duration: 0.3 }
+        x: { type: "spring" as const, stiffness: 260, damping: 28 },
+        opacity: { duration: 0.25 }
       }
     })
   };
@@ -124,12 +125,12 @@ export default function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="text-center mb-16 sm:mb-20"
+          className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
           <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-widest text-blue-400 uppercase bg-blue-500/10 border border-blue-500/20 rounded-full">
             Client Success Stories
           </span>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400 leading-tight py-1">
             Trusted by Innovators Worldwide
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto">
@@ -137,8 +138,8 @@ export default function Testimonials() {
           </p>
         </motion.div>
 
-        {/* Core Testimonial Wrapper with hardcoded sizing minimum variants to maintain GTmetrix CLS targets */}
-        <div className="relative w-full min-h-[580px] sm:min-h-[420px] md:min-h-[340px] lg:min-h-[300px] flex items-center justify-center">
+        {/* Core Testimonial Wrapper - Relative dynamic tracking for perfect layout elasticity */}
+        <div className="relative w-full flex items-center justify-center overflow-visible">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <motion.div
               key={currentTestimonial.id}
@@ -147,7 +148,7 @@ export default function Testimonials() {
               initial="enter"
               animate="center"
               exit="exit"
-              className="w-full absolute grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-slate-900/40 backdrop-blur-md border border-slate-800/80 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl overflow-hidden group"
+              className="w-full relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-slate-900/40 backdrop-blur-md border border-slate-800/80 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl overflow-hidden group"
             >
               {/* Massive Structural Icon Graphic positioned safely away from inner container bounds */}
               <Quote className="absolute top-6 right-6 w-20 h-20 text-slate-800/10 pointer-events-none group-hover:text-blue-500/5 transition-colors duration-500 z-0" />
@@ -231,7 +232,7 @@ export default function Testimonials() {
             </button>
           </div>
 
-        </div>
+          </div>
 
       </div>
     </section>

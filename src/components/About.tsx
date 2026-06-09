@@ -67,7 +67,7 @@ export default function About() {
   ];
 
   return (
-    <section className="relative w-full text-white py-12 md:py-20 overflow-hidden font-sans select-none bg-gradient-to-br from-[#0b0f2b] via-[#071330] to-[#041a38]">
+    <section id="about" className="relative w-full text-white py-12 md:py-20 overflow-hidden font-sans select-none bg-gradient-to-br from-[#0b0f2b] via-[#071330] to-[#041a38]">
       
       {/* ─── NUOX INSPIRED ULTRA-MODERN BACKGROUND AESTHETIC ─── */}
       <div className="absolute top-[-10%] left-[-10%] w-[70vw] h-[70vw] rounded-full bg-gradient-to-tr from-cyan-500/20 to-blue-600/10 blur-[140px] pointer-events-none mix-blend-screen" />
