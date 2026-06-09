@@ -6,15 +6,17 @@ import Services from '@/components/Services';
 import About from "@/components/About";
 import Testimonials from "@/components/Testimonials";
 import MapSection from '@/components/MapSection';
+import Contact from '@/components/Contact';
 
 export default function Home() {
   return (
     <main className="relative min-h-screen w-full bg-black">
       <Hero />
       <About />
-      <Services />
-        <Testimonials />
+      <Services />     
+      <Testimonials />   
       <MapSection />
+      <Contact />
     </main>
   );
 }

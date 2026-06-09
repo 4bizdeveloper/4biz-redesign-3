@@ -28,15 +28,16 @@ const LocationCard = memo(({ loc, index }: { loc: Location; index: number }) => 
     style={{ willChange: 'transform' }}
   >
     {/* OUTER HARDWARE FRAME WRAPPER - Creates realistic device depth and physical dimensions */}
-    <div className="relative w-full max-w-[340px] sm:max-w-[360px] md:max-w-[380px] aspect-[3/4] p-[12px] rounded-[3rem] bg-gradient-to-b from-[#334155] via-[#1e293b] to-[#0f172a] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.2)] transition-all duration-700 ring-1 ring-white/10 group-hover:from-cyan-400 group-hover:via-indigo-500 group-hover:to-purple-600 group-hover:shadow-[0_0_50px_rgba(34,211,238,0.3)]">
+    {/* Optimized top padding (pt-[16px]) to symmetrically house the centered hardware camera array */}
+    <div className="relative w-full max-w-[340px] sm:max-w-[360px] md:max-w-[380px] aspect-[3/4] pt-[16px] pb-[12px] px-[12px] rounded-[3rem] bg-gradient-to-b from-[#334155] via-[#1e293b] to-[#0f172a] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.2)] transition-all duration-700 ring-1 ring-white/10 group-hover:from-cyan-400 group-hover:via-indigo-500 group-hover:to-purple-600 group-hover:shadow-[0_0_50px_rgba(34,211,238,0.3)]">
       
       {/* PHYSICAL HARDWARE SIDE BUTTON ACCENTS (Volume & Power switches) */}
       <div className="absolute left-[-3px] top-24 w-[3px] h-10 bg-[#1e293b] rounded-l border-l border-white/10 group-hover:bg-cyan-400 transition-colors duration-700" />
       <div className="absolute left-[-3px] top-38 w-[3px] h-14 bg-[#1e293b] rounded-l border-l border-white/10 group-hover:bg-cyan-400 transition-colors duration-700" />
       <div className="absolute right-[-3px] top-32 w-[3px] h-16 bg-[#1e293b] rounded-r border-r border-white/10 group-hover:bg-indigo-400 transition-colors duration-700" />
 
-      {/* DISCRETE FRONT CAMERA / PROXIMITY SENSOR EYE */}
-      <div className="absolute top-[4px] left-1/2 -translate-x-1/2 w-2 h-2 bg-[#090d16] rounded-full z-40 flex items-center justify-center border border-white/5 shadow-inner">
+      {/* DISCRETE FRONT CAMERA / PROXIMITY SENSOR EYE - Centered symmetrically within top frame thickness */}
+      <div className="absolute top-[6px] left-1/2 -translate-x-1/2 w-2 h-2 bg-[#090d16] rounded-full z-40 flex items-center justify-center border border-white/5 shadow-inner">
         <div className="w-0.5 h-0.5 bg-blue-500/40 rounded-full animate-pulse" />
       </div>
 
@@ -116,7 +117,6 @@ const MapSection = () => {
       title: "Global Headquarters",
       subtitle: "International Enterprise Solutions Hub",
       address: "Crystal Building, Al Karama, Dubai",
-      // Exact GMB native embed URL provided for Dubai branch
       src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.846921067268!2d55.2973838!3d25.2420804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5d3f84a0cd39%3A0x6834edd5ea42e51d!2s4BIZ%20International%20LLC!5e0!3m2!1sen!2sae!4v1780903880922!5m2!1sen!2sae",
       link: "https://maps.app.goo.gl/32WmFGVmDaoCesDK9"
     },
@@ -125,7 +125,6 @@ const MapSection = () => {
       title: "Regional Tech Node",
       subtitle: "Offshore Software Development Center",
       address: "HiLite Business Park, Calicut, Kerala",
-      // Exact GMB native embed URL provided for hilite business park branch
       src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.1893273073897!2d75.8334759!3d11.247478800000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba65b26cb564cd7%3A0x6e4ea8183d688e13!2s4biz%20International!5e0!3m2!1sen!2sae!4v1780903901319!5m2!1sen!2sae",
       link: "https://maps.app.goo.gl/ehYp13MsiQJxXmebA"
     },
@@ -134,7 +133,6 @@ const MapSection = () => {
       title: "Operational Hub",
       subtitle: "Next-Gen IT Infrastructure & Operations",
       address: "4Biz International Tower, Calicut",
-      // Exact GMB native embed URL provided for nadakkavu branch 
       src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3912.778183213242!2d75.7727812!3d11.277709500000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba65f2df7358683%3A0xdd71f8c39ea9198!2s4biz%20International%20-%20Nadakkavu!5e0!3m2!1sen!2sae!4v1780903922115!5m2!1sen!2sae",
       link: "https://maps.app.goo.gl/M1xzYiJ6AARUdH9i8"
     }
