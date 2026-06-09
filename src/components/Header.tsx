@@ -128,12 +128,13 @@ export default function Header() {
       </header>
 
       {/* ─── FULLSCREEN OVERLAY MENU ────────────────────────────────────────── */}
+      {/* Increased z-index here to z-[9999999] to cleanly step on top of the fixed buttons */}
       <div
         id="main-nav-overlay"
         role="dialog"
         aria-modal="true"
         aria-label="Navigation Menu"
-        className={`fixed inset-0 z-[60] bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950 text-white
+        className={`fixed inset-0 z-[9999999] bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950 text-white
           overflow-y-auto overscroll-contain h-screen w-screen
           transition-all duration-500 ease-out will-change-[transform,opacity]
           ${menuOpen
