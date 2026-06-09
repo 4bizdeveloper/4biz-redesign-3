@@ -7,16 +7,18 @@ import About from "@/components/About";
 import Testimonials from "@/components/Testimonials";
 import MapSection from '@/components/MapSection';
 import Contact from '@/components/Contact';
+import ClientSection from '@/components/ClientSection';
 
 export default function Home() {
   return (
     <main className="relative min-h-screen w-full bg-black">
       <Hero />
       <About />
-      <Services />     
+      <Services />  
+       <ClientSection />   
       <Testimonials />   
       <MapSection />
-      <Contact />
+      <Contact />    
     </main>
   );
 }
