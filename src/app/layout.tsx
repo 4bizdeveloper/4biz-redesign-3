@@ -4,8 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AIChatButton from "@/components/AIChatButton";
 import WhatsAppButton from "@/components/WhatsAppButton";
-
-
+import CallButton from "@/components/CallButton";
 
 
 export const metadata: Metadata = {
@@ -31,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Floating Utilities */}
         <AIChatButton />
         <WhatsAppButton />
-
+        <CallButton />
         <main className="relative z-10 w-full min-h-screen">
           {children}
         </main>

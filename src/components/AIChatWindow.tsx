@@ -173,7 +173,7 @@ const AIChatWindow = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
       const pulse = (t * 0.5) % 1;
       const pr = pulse * Math.max(W, H) * 0.7;
       ctx.beginPath();
-      ctx.arc(W * 0.85, H * 0.5, pr, 0, Math.PI * 2);
+      ctx.arc(W * 0.15, H * 0.5, pr, 0, Math.PI * 2); // Pulse targets the left side avatar now
       ctx.strokeStyle = `rgba(91,222,252,${(1 - pulse) * 0.12})`;
       ctx.lineWidth = 1;
       ctx.stroke();
@@ -297,13 +297,13 @@ const AIChatWindow = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
           max-height: none;
         }
 
-        /* ── Desktop: always the same fixed size, content scrolls ── */
+        /* ── Desktop: shifts to the bottom-left corner ── */
         @media (min-width: 640px) {
           .chat-window {
-            /* Anchor to bottom-right above the floating buttons */
+            /* Anchor to bottom-left above the floating buttons */
             top:    auto;
-            left:   auto;
-            right:  16px;
+            right:  auto;
+            left:   16px;
             bottom: 80px;
 
             /* Fixed dimensions — never change regardless of content */

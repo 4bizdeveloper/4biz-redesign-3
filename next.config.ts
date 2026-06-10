@@ -1,11 +1,10 @@
-import type { NextConfig } from "next";
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // Tells Next.js to compile your app directly into static HTML/CSS/JS files
+  output: 'export',
   images: {
-    unoptimized: true, // Required for fully standalone static HTML exports
+    unoptimized: true,
   },
+  devIndicators: false,
 };
 
 export default nextConfig;

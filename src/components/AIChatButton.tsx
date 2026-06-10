@@ -11,15 +11,15 @@ const AIChatButton = () => {
       <AIChatWindow isOpen={isOpen} onClose={() => setIsOpen(false)} />
 
       {/*
-        STACK ORDER (bottom-right corner, vertical):
-        • WhatsApp  → bottom: 80px  (above AI)
-        • AI Chat   → bottom: 20px  (lowest, at very bottom)
+        STACK ORDER (bottom-left corner, vertical):
+        • WhatsApp   → bottom: 80px  (above AI)
+        • AI Chat    → bottom: 20px  (lowest, at very bottom)
         Chat window opens upward from AI button top edge:
         AI top = 20 + 48 = 68px, + 12px gap = bottom: 80px for window
       */}
       <div
-        className="fixed z-[999998] hover:z-[1000000] flex flex-row-reverse items-center pointer-events-none group transform-gpu"
-        style={{ bottom: '20px', right: '20px' }}
+        className="fixed z-[999998] hover:z-[1000000] flex flex-row items-center pointer-events-none group transform-gpu"
+        style={{ bottom: '20px', left: '20px' }}
       >
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -31,7 +31,7 @@ const AIChatButton = () => {
           <span className="ai-ring ai-ring-1" />
           <span className="ai-ring ai-ring-2" />
 
-          {/* Chromatic spinning core */}
+          {/* Bright shiny violet gradient core (Static) */}
           <span className="ai-orb-core" />
 
           {/* Inner radial glow */}
@@ -40,7 +40,7 @@ const AIChatButton = () => {
           {/* Gloss */}
           <span style={{
             position: 'absolute', inset: 0, borderRadius: '50%',
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.26) 0%, transparent 52%)',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 52%)',
             zIndex: 10, pointerEvents: 'none',
           }} />
 
@@ -58,12 +58,12 @@ const AIChatButton = () => {
           </svg>
         </button>
 
-        {/* Tooltip — desktop only, slides in from right */}
-        <div className="hidden lg:flex items-center mr-4 px-4 py-2 bg-[#03030b]/88 backdrop-blur-xl border border-white/[0.08] rounded-xl text-white text-[10px] font-bold uppercase tracking-[0.32em] opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-400 ease-out pointer-events-none whitespace-nowrap"
-          style={{ boxShadow: '0 0 24px rgba(239,41,222,0.22)' }}>
+        {/* Tooltip — desktop only, slides out to the right */}
+        <div className="hidden lg:flex items-center ml-4 px-4 py-2 bg-[#03030b]/88 backdrop-blur-xl border border-white/[0.08] rounded-xl text-white text-[10px] font-bold uppercase tracking-[0.32em] opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-400 ease-out pointer-events-none whitespace-nowrap"
+          style={{ boxShadow: '0 0 24px rgba(218,47,252,0.35)' }}>
           <span className="relative flex h-2 w-2 mr-3 flex-shrink-0">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#ef29de' }}></span>
-            <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: 'linear-gradient(135deg,#ef29de,#5bdefc)' }}></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#da2ffc' }}></span>
+            <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: 'linear-gradient(135deg,#da2ffc,#8900f2)' }}></span>
           </span>
           AI Assistant
         </div>
@@ -80,47 +80,39 @@ const AIChatButton = () => {
 
         .ai-orb-core {
           position: absolute; inset: 0; border-radius: 50%; z-index: 1;
-          background: conic-gradient(from 0deg,
-            #5bdefc 0deg,
-            #ef29de 120deg,
-            #5bdefc 240deg,
-            #ef29de 360deg
+          /* Shiny, deep-to-bright multi-stop intense violet gradient without animation */
+          background: linear-gradient(135deg, 
+            #e0aaff 0%, 
+            #c77dff 25%, 
+            #9d4edd 50%, 
+            #7b2cbf 75%, 
+            #5a189a 100%
           );
-          animation: ai-spin 5s linear infinite, ai-brightness 3s ease-in-out infinite alternate;
           box-shadow:
-            0 0 16px rgba(239,41,222,0.65),
-            0 0 32px rgba(91,222,252,0.28),
-            inset 0 0 12px rgba(0,0,0,0.65);
-        }
-        @keyframes ai-spin { to { transform: rotate(360deg); } }
-        @keyframes ai-brightness {
-          0%   { filter: brightness(0.9) saturate(1.1); }
-          100% { filter: brightness(1.2) saturate(1.4); }
+            0 0 18px rgba(157, 78, 221, 0.85),
+            0 0 36px rgba(199, 125, 255, 0.4),
+            inset 0 2px 4px rgba(255, 255, 255, 0.4),
+            inset 0 -4px 12px rgba(0, 0, 0, 0.5);
         }
 
         .ai-inner-glow {
-          position: absolute; inset: 5px; border-radius: 50%; z-index: 5; pointer-events: none;
-          background: radial-gradient(circle at 38% 33%,
-            rgba(91,222,252,0.5) 0%,
-            rgba(239,41,222,0.3) 50%,
+          position: absolute; inset: 4px; border-radius: 50%; z-index: 5; pointer-events: none;
+          background: radial-gradient(circle at 35% 30%,
+            rgba(255, 255, 255, 0.45) 0%,
+            rgba(199, 125, 255, 0.25) 50%,
             transparent 100%
           );
-          animation: ai-glow 3.5s ease-in-out infinite alternate;
-        }
-        @keyframes ai-glow {
-          0%   { opacity: 0.55; transform: scale(0.9); }
-          100% { opacity: 1;    transform: scale(1.08); }
         }
 
         .ai-ring {
           position: absolute; border-radius: 50%;
           border: 1px solid transparent; pointer-events: none;
         }
-        .ai-ring-1 { inset: -3px; border-color: rgba(239,41,222,0.55); animation: ai-pulse-ring 2.8s ease-out infinite; }
-        .ai-ring-2 { inset: -3px; border-color: rgba(91,222,252,0.40); animation: ai-pulse-ring 2.8s ease-out infinite 1.4s; }
+        .ai-ring-1 { inset: -3px; border-color: rgba(199, 125, 255, 0.6); animation: ai-pulse-ring 2.8s ease-out infinite; }
+        .ai-ring-2 { inset: -3px; border-color: rgba(157, 78, 221, 0.45); animation: ai-pulse-ring 2.8s ease-out infinite 1.4s; }
         @keyframes ai-pulse-ring {
           0%   { transform: scale(1);   opacity: 0.85; }
-          100% { transform: scale(2.5); opacity: 0; }
+          100% { transform: scale(2.3); opacity: 0; }
         }
       `}</style>
     </>
