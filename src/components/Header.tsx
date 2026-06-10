@@ -40,18 +40,19 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  // Smoothly lock body scroll without triggering viewport height resizing glitches across zoom shifts
+  // Performance Optimization: Cache body reference and handle overflow smoothly
   useEffect(() => {
+    const body = document.body;
     if (menuOpen) {
-      document.body.style.setProperty('overflow', 'hidden', 'important');
-      document.body.style.touchAction = 'none';
+      body.style.setProperty('overflow', 'hidden', 'important');
+      body.style.touchAction = 'none';
     } else {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
+      body.style.overflow = '';
+      body.style.touchAction = '';
     }
     return () => {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
+      body.style.overflow = '';
+      body.style.touchAction = '';
     };
   }, [menuOpen]);
 
@@ -137,15 +138,15 @@ export default function Header() {
         role="dialog"
         aria-modal="true"
         aria-label="Navigation Menu"
-        className={`fixed inset-0 z-[9999999] bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950 text-white
-          overflow-y-auto overscroll-contain min-h-[100dvh] w-full
-          transition-all duration-500 ease-out will-change-[transform,opacity]
+        className={`fixed inset-0 z-[9999999] bg-slate-950 bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950 text-white
+          overflow-y-auto overscroll-contain min-h-screen w-full
+          transition-all duration-300 ease-out will-change-[transform,opacity] transform-gpu
           ${menuOpen
             ? 'opacity-100 translate-y-0 pointer-events-auto visible'
-            : 'opacity-0 -translate-y-6 pointer-events-none invisible'
+            : 'opacity-0 translate-y-4 pointer-events-none invisible'
           }`}
       >
-        <div className="min-h-full flex flex-col max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 transform-gpu pb-12">
+        <div className="min-h-full flex flex-col max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pb-12">
           
           {/* Top Bar inside Overlay */}
           <div className="flex justify-between items-center py-5 sm:py-7 flex-shrink-0 gap-4">
@@ -177,6 +178,7 @@ export default function Header() {
                 { label: 'Home', path: '/' },
                 { label: 'About', path: '/#about' },
                 { label: 'Services', path: '/services' },
+                { label: 'Locations', path: '/#map' },
                 { label: 'Contact', path: '/#contact' },
                 { label: 'Blogs', path: '/blogs' },
               ].map((item) => (

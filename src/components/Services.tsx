@@ -306,38 +306,39 @@ export default function Services() {
   return (
     <section
       ref={sectionRef}
-      className="services-section w-full py-16 md:py-24 px-4 md:px-8 lg:px-16 text-white overflow-hidden select-none relative bg-[#040b1a]"
+      className="services-section w-full py-16 md:py-24 px-4 md:px-8 lg:px-16 text-white overflow-hidden select-none relative bg-[#0b1d3a]"
     >
       {/* BACKGROUND GRAPHICS */}
       <div className="absolute inset-0 services-bg pointer-events-none z-0" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 services-lines-overlay z-0" aria-hidden="true" />
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden z-0" aria-hidden="true">
-        <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] rounded-full bg-blue-500/8 blur-[130px]" />
-        <div className="absolute bottom-[-10%] right-[10%] w-[400px] h-[400px] rounded-full bg-cyan-600/8 blur-[100px]" />
+        <div className="absolute top-[-10%] left-[15%] w-[600px] h-[600px] rounded-full bg-blue-500/20 blur-[120px]" />
+        <div className="absolute top-[30%] right-[5%] w-[500px] h-[500px] rounded-full bg-indigo-500/15 blur-[130px]" />
+        <div className="absolute bottom-[-10%] left-[40%] w-[550px] h-[550px] rounded-full bg-cyan-500/18 blur-[110px]" />
       </div>
 
       <div className={`max-w-7xl mx-auto relative z-10 transition-all duration-700 ${visibleCards ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
 
         {/* Section Heading */}
         <div className="text-center mb-12 md:mb-20">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 tracking-normal">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 tracking-normal drop-shadow-md">
             What we do <span className="text-cyan-400">?</span>
           </h2>
-          <p className="text-slate-400 text-sm md:text-base font-medium max-w-xl mx-auto tracking-normal">
+          <p className="text-slate-300 text-sm md:text-base font-medium max-w-xl mx-auto tracking-normal">
             Discover our comprehensive suite of advanced digital capabilities tailored for modern enterprises.
           </p>
         </div>
 
         {/* Main Frame */}
-        <div className="main-panel bg-white/[0.03] border border-white/[0.08] rounded-[2rem] md:rounded-[2.5rem] p-4 md:p-8 lg:p-12 shadow-2xl backdrop-blur-md xl:pr-20">
+        <div className="main-panel bg-white/[0.05] border border-white/[0.12] rounded-[2rem] md:rounded-[2.5rem] p-4 md:p-8 lg:p-12 shadow-2xl backdrop-blur-md xl:pr-20">
           <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-stretch min-h-auto lg:min-h-[600px]">
 
             {/* Navigation Tabs (Desktop) */}
-            <div className="hidden md:flex flex-col justify-start items-center w-full lg:w-[220px] shrink-0 gap-2 relative border-r border-white/[0.07] pr-0 lg:pr-6 max-h-[600px]">
+            <div className="hidden md:flex flex-col justify-start items-center w-full lg:w-[220px] shrink-0 gap-2 relative border-r border-white/[0.1] pr-0 lg:pr-6 max-h-[600px]">
               <button
                 onClick={handlePrev}
-                className="text-slate-500 hover:text-cyan-400 transition-colors py-2 w-full text-center sticky top-0 backdrop-blur-sm z-20 cursor-pointer hidden lg:block bg-transparent border-0"
+                className="text-slate-400 hover:text-cyan-400 transition-colors py-2 w-full text-center sticky top-0 backdrop-blur-sm z-20 cursor-pointer hidden lg:block bg-transparent border-0"
                 aria-label="Scroll Up"
               >
                 <ChevronUp size={22} className="mx-auto animate-bounce" />
@@ -356,7 +357,7 @@ export default function Services() {
                       className={`w-full max-w-[220px] px-4 py-3.5 rounded-2xl text-left font-bold transition-all duration-300 transform text-sm leading-tight tracking-normal border-0 cursor-pointer ${
                         isActive
                           ? service.activeTabClass + " scale-[1.02]"
-                          : "text-slate-400 bg-transparent hover:text-white hover:bg-white/5"
+                          : "text-slate-300 bg-transparent hover:text-white hover:bg-white/10"
                       }`}
                     >
                       {service.title}
@@ -367,7 +368,7 @@ export default function Services() {
 
               <button
                 onClick={handleNext}
-                className="text-slate-500 hover:text-cyan-400 transition-colors py-2 w-full text-center sticky bottom-0 backdrop-blur-sm z-20 cursor-pointer hidden lg:block bg-transparent border-0"
+                className="text-slate-400 hover:text-cyan-400 transition-colors py-2 w-full text-center sticky bottom-0 backdrop-blur-sm z-20 cursor-pointer hidden lg:block bg-transparent border-0"
                 aria-label="Scroll Down"
               >
                 <ChevronDown size={22} className="mx-auto animate-bounce" />
@@ -375,7 +376,7 @@ export default function Services() {
             </div>
 
             {/* Mobile Prev/Next Controls */}
-            <div className="md:hidden flex items-center justify-between bg-white/5 p-3 rounded-2xl border border-white/10 shadow-inner">
+            <div className="md:hidden flex items-center justify-between bg-white/10 p-3 rounded-2xl border border-white/15 shadow-inner">
               <button
                 onClick={handlePrev}
                 className="p-2.5 rounded-xl bg-white/10 text-white border border-white/10 hover:bg-white/15 active:scale-95 transition-all cursor-pointer"
@@ -403,12 +404,12 @@ export default function Services() {
               {/* Mesh visual overlay background layers */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[2rem] z-0" aria-hidden="true">
                 <div
-                  className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-20 mix-blend-overlay"
+                  className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-25 mix-blend-overlay"
                   style={{ "--bg-feat": "url('/service-bg-1.png')" } as React.CSSProperties}
                   id="card-texture-layer"
                 />
-                <div className="absolute top-[-20%] right-[-10%] w-[80%] h-[110%] rounded-full bg-white/10 blur-[100px] mix-blend-screen animate-pulse-slow" />
-                <div className="absolute bottom-[-20%] left-[-10%] w-[80%] h-[90%] rounded-full bg-black/40 blur-[90px] mix-blend-multiply" />
+                <div className="absolute top-[-20%] right-[-10%] w-[80%] h-[110%] rounded-full bg-white/15 blur-[100px] mix-blend-screen animate-pulse-slow" />
+                <div className="absolute bottom-[-20%] left-[-10%] w-[80%] h-[90%] rounded-full bg-black/30 blur-[90px] mix-blend-multiply" />
               </div>
 
               {/* Text Block Columns */}
@@ -417,7 +418,7 @@ export default function Services() {
                   <h3 className="text-xl md:text-3xl lg:text-4xl font-black mb-4 md:mb-5 tracking-normal leading-snug drop-shadow-lg text-left">
                     {currentService.subtitle}
                   </h3>
-                  <p className="text-white/90 text-sm md:text-base leading-relaxed font-normal text-left tracking-normal drop-shadow-sm max-w-2xl">
+                  <p className="text-white/95 text-sm md:text-base leading-relaxed font-normal text-left tracking-normal drop-shadow-sm max-w-2xl">
                     {currentService.description}
                   </p>
                 </div>
@@ -425,7 +426,7 @@ export default function Services() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 pt-4 border-t border-white/10">
                   {currentService.points.map((point, pIdx) => (
                     <div key={pIdx} className="flex items-center space-x-3 text-sm md:text-base font-extrabold tracking-normal drop-shadow-md group/item">
-                      <span className="text-white/70 font-black text-base select-none transition-transform group-hover/item:translate-x-1">»</span>
+                      <span className="text-white/80 font-black text-base select-none transition-transform group-hover/item:translate-x-1">»</span>
                       <span className="transition-transform duration-200 cursor-default group-hover/item:text-cyan-200 text-left">
                         {point}
                       </span>
@@ -482,7 +483,7 @@ export default function Services() {
               className={`rounded-full transition-all duration-300 border-0 cursor-pointer ${
                 index === activeIndex
                   ? "w-6 h-2 bg-cyan-400"
-                  : "w-2 h-2 bg-slate-600 hover:bg-slate-400"
+                  : "w-2 h-2 bg-slate-500 hover:bg-slate-400"
               }`}
               aria-label={`Go to ${servicesData[index].title}`}
             />
@@ -494,10 +495,10 @@ export default function Services() {
       <style jsx global>{`
         .services-bg {
           background:
-            radial-gradient(ellipse 80% 40% at 10% 0%, #1a3a6e 0%, transparent 60%),
-            radial-gradient(ellipse 60% 50% at 90% 50%, #0e2654 0%, transparent 55%),
-            radial-gradient(ellipse 80% 50% at 50% 110%, #060f1f 0%, transparent 60%),
-            linear-gradient(175deg, #0d2147 0%, #091a3a 30%, #060e22 65%, #040b1a 100%);
+            radial-gradient(ellipse 80% 40% at 10% 0%, #1e3f7a 0%, transparent 60%),
+            radial-gradient(ellipse 60% 50% at 90% 50%, #14356e 0%, transparent 55%),
+            radial-gradient(ellipse 80% 50% at 50% 110%, #0d244a 0%, transparent 60%),
+            linear-gradient(175deg, #163265 0%, #102752 30%, #0d2044 65%, #0b1d3a 100%);
         }
 
         .services-lines-overlay {
@@ -506,15 +507,15 @@ export default function Services() {
               -55deg,
               transparent,
               transparent 40px,
-              rgba(255,255,255,0.018) 40px,
-              rgba(255,255,255,0.018) 41px
+              rgba(255,255,255,0.025) 40px,
+              rgba(255,255,255,0.025) 41px
             ),
             repeating-linear-gradient(
               35deg,
               transparent,
               transparent 60px,
-              rgba(255,255,255,0.012) 60px,
-              rgba(255,255,255,0.012) 61px
+              rgba(255,255,255,0.018) 60px,
+              rgba(255,255,255,0.018) 61px
             );
         }
 
@@ -539,7 +540,7 @@ export default function Services() {
           background: #64748b; 
         }
 
-        @keyframes pulse-slow { 0%,100% { opacity:.6; } 50% { opacity:.2; } }
+        @keyframes pulse-slow { 0%,100% { opacity:.7; } 50% { opacity:.3; } }
         .animate-pulse-slow { animation: pulse-slow 10s ease-in-out infinite; }
 
         @supports (animation-timeline: view()) {

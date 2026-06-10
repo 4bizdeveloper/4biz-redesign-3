@@ -66,7 +66,7 @@ export default function Testimonials() {
     if (isAutoplay) {
       timerRef.current = setInterval(() => {
         slideNext();
-      }, 6000); // Transitions every 6 seconds
+      }, 6000);
     }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -75,34 +75,37 @@ export default function Testimonials() {
 
   // Handle manual interaction pauses
   const handleManualNavigation = (action: () => void) => {
-    setIsAutoplay(false); // Stop autoplay when user manually clicks
+    setIsAutoplay(false);
     action();
   };
 
-  // Animation variants configuration mapped with direct typescript literal constraints
+  // Ultra-smooth slide variants using layout-preserving positioning parameters to prevent cross-fade layout jumps
   const slideVariants: Variants = {
     enter: (dir: number) => ({
-      x: dir > 0 ? 40 : -40,
+      x: dir > 0 ? 30 : -30,
       opacity: 0,
-      scale: 0.98,
+      scale: 0.99,
     }),
     center: {
       x: 0,
       opacity: 1,
       scale: 1,
       transition: {
-        x: { type: "spring" as const, stiffness: 260, damping: 28 },
-        opacity: { duration: 0.35 },
-        scale: { duration: 0.35 }
+        x: { type: "spring" as const, stiffness: 300, damping: 32 },
+        opacity: { duration: 0.3 },
+        scale: { duration: 0.3 }
       }
     },
     exit: (dir: number) => ({
-      position: "absolute" as const, // Prevents layout snapping during dynamic container exit
-      x: dir > 0 ? -40 : 40,
+      position: "absolute" as const,
+      top: 0,
+      left: 0,
+      width: "100%",
+      x: dir > 0 ? -30 : 30,
       opacity: 0,
-      scale: 0.98,
+      scale: 0.99,
       transition: {
-        x: { type: "spring" as const, stiffness: 260, damping: 28 },
+        x: { type: "spring" as const, stiffness: 300, damping: 32 },
         opacity: { duration: 0.25 }
       }
     })
@@ -111,35 +114,49 @@ export default function Testimonials() {
   const currentTestimonial = testimonialsData[activeIndex];
 
   return (
-    <section className="relative w-full py-24 px-4 sm:px-6 lg:px-8 bg-slate-950 text-white overflow-hidden select-none">
-      {/* Background Tech Decorative Elements */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-25 pointer-events-none" />
+    <section 
+      className="relative w-full py-24 px-4 sm:px-6 lg:px-8 text-white overflow-hidden select-none transform-gpu flex flex-col justify-center"
+      style={{
+        background: 'radial-gradient(circle at 50% 50%, #152466 0%, #0d1742 45%, #080f30 80%, #060b24 100%)',
+        contentVisibility: 'auto',
+        contain: 'paint layout',
+        containmentIntrinsicSize: '1px 750px',
+      } as React.CSSProperties}
+    >
+      {/* Dynamic Cyber Ambient Overlays — Pure dark blue/indigo, zero pure black */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#111c52]/30 via-[#0d1742]/10 to-[#0a1236]/30 pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      {/* Expanded Luminous Mesh Backdrops to eliminate pure dark spots across top & bottom boundaries */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyan-400/20 rounded-full blur-[140px] pointer-events-none mix-blend-screen transform -translate-y-1/3 animate-pulse" />
+      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-500/15 rounded-full blur-[140px] pointer-events-none mix-blend-screen transform translate-y-1/3" />
+      <div className="absolute top-1/3 right-1/3 w-[350px] h-[350px] bg-blue-500/15 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
+
+      {/* High-Tech Grid Structure */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf806_1px,transparent_1px),linear-gradient(to_bottom,#38bdf806_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_50%,#000_80%,transparent_100%)] opacity-40 pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto w-full relative z-10">
         
-        {/* Scroll-Responsive Heading Block */}
+        {/* Header Block */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
-          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-widest text-blue-400 uppercase bg-blue-500/10 border border-blue-500/20 rounded-full">
+          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-widest text-cyan-300 uppercase bg-cyan-400/[0.12] border border-cyan-400/30 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.1)]">
             Client Success Stories
           </span>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400 leading-tight py-1">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-100 to-slate-300 leading-tight py-1">
             Trusted by Innovators Worldwide
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto">
             Discover how we help global enterprises and high-growth startups build complex architectures and digital products that scale.
           </p>
         </motion.div>
 
-        {/* Core Testimonial Wrapper - Relative dynamic tracking for perfect layout elasticity */}
-        <div className="relative w-full flex items-center justify-center overflow-visible">
+        {/* Core Testimonial Flex-box Frame — Fixed layouts via strict height clamping parameters across viewports */}
+        <div className="relative w-full overflow-visible min-h-[460px] sm:min-h-[380px] md:min-h-[320px] lg:min-h-[290px] xl:min-h-[270px]">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <motion.div
               key={currentTestimonial.id}
@@ -148,19 +165,19 @@ export default function Testimonials() {
               initial="enter"
               animate="center"
               exit="exit"
-              className="w-full relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-slate-900/40 backdrop-blur-md border border-slate-800/80 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl overflow-hidden group"
+              className="w-full relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#111d4a]/75 backdrop-blur-xl border border-cyan-400/25 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-[0_20px_50px_rgba(6,11,38,0.5)] overflow-hidden group transform-gpu"
             >
-              {/* Massive Structural Icon Graphic positioned safely away from inner container bounds */}
-              <Quote className="absolute top-6 right-6 w-20 h-20 text-slate-800/10 pointer-events-none group-hover:text-blue-500/5 transition-colors duration-500 z-0" />
+              {/* Vibrant Background Quote Emblem */}
+              <Quote className="absolute top-6 right-6 w-24 h-24 text-cyan-400/[0.12] pointer-events-none group-hover:text-cyan-400/20 group-hover:scale-105 transition-all duration-500 z-0" />
               
-              {/* Left Column: Image, Info, & Stars */}
-              <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left border-b lg:border-b-0 lg:border-r border-slate-800/60 pb-6 lg:pb-0 lg:pr-8 z-10">
-                <div className="relative w-24 h-24 sm:w-28 sm:h-28 mb-4 rounded-2xl overflow-hidden p-0.5 bg-gradient-to-tr from-blue-500 to-purple-600 shadow-xl">
+              {/* Left Column: Media Information Profile */}
+              <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left border-b lg:border-b-0 lg:border-r border-cyan-400/20 pb-6 lg:pb-0 lg:pr-8 z-10 w-full">
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 mb-4 rounded-2xl overflow-hidden p-0.5 bg-gradient-to-tr from-cyan-400 via-teal-300 to-purple-500 shadow-xl shadow-cyan-950/50">
                   <Image 
                     src={currentTestimonial.image} 
                     alt={currentTestimonial.name}
                     fill
-                    sizes="(max-w-768px) 96px, 112px"
+                    sizes="(max-width: 768px) 96px, 112px"
                     priority
                     className="object-cover rounded-[14px]"
                   />
@@ -169,24 +186,24 @@ export default function Testimonials() {
                 <h3 className="text-xl font-bold text-white tracking-wide">
                   {currentTestimonial.name}
                 </h3>
-                <p className="text-sm font-medium text-blue-400 mt-1">
+                <p className="text-sm font-medium text-cyan-300 mt-1">
                   {currentTestimonial.role}
                 </p>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-300 mt-0.5">
                   {currentTestimonial.company}
                 </p>
 
                 <div className="flex gap-1 mt-4">
                   {[...Array(currentTestimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400 drop-shadow-[0_0_4px_rgba(251,191,36,0.5)]" />
                   ))}
                 </div>
               </div>
 
-              {/* Right Column: Narrative Testimonial Body */}
-              <div className="lg:col-span-8 flex flex-col justify-center relative px-2 sm:px-4 z-10">
-                <Quote className="w-10 h-10 text-blue-500/20 mb-4 hidden lg:block" />
-                <p className="text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed font-light italic">
+              {/* Right Column: Statement Block */}
+              <div className="lg:col-span-8 flex flex-col justify-center relative px-2 sm:px-4 z-10 w-full">
+                <Quote className="w-10 h-10 text-cyan-400/50 mb-4 hidden lg:block drop-shadow-[0_0_10px_rgba(34,211,238,0.3)]" />
+                <p className="text-base sm:text-lg lg:text-xl text-slate-100 leading-relaxed font-light italic">
                   "{currentTestimonial.content}"
                 </p>
               </div>
@@ -194,10 +211,10 @@ export default function Testimonials() {
           </AnimatePresence>
         </div>
 
-        {/* Global Navigation Layout Controls (Desktop, Tablet, & Mobile Friendly) */}
+        {/* Global Navigation Layout Controls */}
         <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 px-2">
           
-          {/* Slider Pagination Progress Dots */}
+          {/* Progress Indicators */}
           <div className="flex gap-2.5 order-2 sm:order-1">
             {testimonialsData.map((_, index) => (
               <button
@@ -207,32 +224,32 @@ export default function Testimonials() {
                   setActiveIndex(index);
                 })}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  index === activeIndex ? "w-8 bg-blue-500" : "w-2 bg-slate-700 hover:bg-slate-500"
+                  index === activeIndex ? "w-8 bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.6)]" : "w-2 bg-slate-600 hover:bg-slate-400"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
 
-          {/* Persistent Arrow Controls for All Device Classes */}
+          {/* Interactive Arrow Controls */}
           <div className="flex gap-4 order-1 sm:order-2">
             <button
               onClick={() => handleManualNavigation(slidePrev)}
-              className="p-3.5 sm:p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white transition-all duration-200 shadow-lg active:scale-95 group"
+              className="p-3.5 sm:p-4 rounded-xl bg-[#13225c] border border-cyan-400/30 hover:border-cyan-400/60 text-slate-200 hover:text-white transition-all duration-200 shadow-lg hover:shadow-cyan-900/30 active:scale-95 group"
               aria-label="Previous testimonial"
             >
               <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
             </button>
             <button
               onClick={() => handleManualNavigation(slideNext)}
-              className="p-3.5 sm:p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white transition-all duration-200 shadow-lg active:scale-95 group"
+              className="p-3.5 sm:p-4 rounded-xl bg-[#13225c] border border-cyan-400/30 hover:border-cyan-400/60 text-slate-200 hover:text-white transition-all duration-200 shadow-lg hover:shadow-cyan-900/30 active:scale-95 group"
               aria-label="Next testimonial"
             >
               <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
 
-          </div>
+        </div>
 
       </div>
     </section>
