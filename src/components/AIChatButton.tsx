@@ -27,20 +27,23 @@ const AIChatButton = () => {
           aria-label="Toggle AI Chat"
           style={{ width: 48, height: 48 }}
         >
-          {/* Pulsing rings */}
+          {/* Supercharged high-visibility pulsing rings */}
           <span className="ai-ring ai-ring-1" />
           <span className="ai-ring ai-ring-2" />
 
-          {/* Bright shiny violet gradient core (Static) */}
+          {/* Deepened shiny violet gradient core (Static) */}
           <span className="ai-orb-core" />
 
-          {/* Inner radial glow */}
+          {/* Inner high-intensity neon attention border */}
+          <span className="ai-neon-border" />
+
+          {/* Inner radial glow - Reduced opacity to prevent icon blending */}
           <span className="ai-inner-glow" />
 
-          {/* Gloss */}
+          {/* Gloss - Toned down white overlay opacity */}
           <span style={{
             position: 'absolute', inset: 0, borderRadius: '50%',
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 52%)',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 52%)',
             zIndex: 10, pointerEvents: 'none',
           }} />
 
@@ -80,26 +83,37 @@ const AIChatButton = () => {
 
         .ai-orb-core {
           position: absolute; inset: 0; border-radius: 50%; z-index: 1;
-          /* Shiny, deep-to-bright multi-stop intense violet gradient without animation */
           background: linear-gradient(135deg, 
-            #e0aaff 0%, 
-            #c77dff 25%, 
-            #9d4edd 50%, 
-            #7b2cbf 75%, 
-            #5a189a 100%
+            #b388ff 0%, 
+            #9d4edd 30%, 
+            #7b2cbf 60%, 
+            #5a189a 85%, 
+            #3c096c 100%
           );
+          /* Multiplied drop shadow intensity to pop vividly from deep dark backgrounds */
           box-shadow:
-            0 0 18px rgba(157, 78, 221, 0.85),
-            0 0 36px rgba(199, 125, 255, 0.4),
-            inset 0 2px 4px rgba(255, 255, 255, 0.4),
-            inset 0 -4px 12px rgba(0, 0, 0, 0.5);
+            0 0 24px rgba(186, 104, 200, 0.95),
+            0 0 48px rgba(157, 78, 221, 0.55),
+            inset 0 1.5px 3px rgba(255, 255, 255, 0.3),
+            inset 0 -4px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        /* High-contrast vibrant neon border framework to catch user focus */
+        .ai-neon-border {
+          position: absolute; inset: 0; border-radius: 50%; z-index: 2; pointer-events: none;
+          border: 2px solid transparent;
+          background: linear-gradient(135deg, #f72585, #7209b7, #3f37c9, #4cc9f0) border-box;
+          -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: destination-out;
+          mask-composite: exclude;
+          filter: drop-shadow(0 0 4px rgba(247, 37, 133, 0.8));
         }
 
         .ai-inner-glow {
           position: absolute; inset: 4px; border-radius: 50%; z-index: 5; pointer-events: none;
           background: radial-gradient(circle at 35% 30%,
-            rgba(255, 255, 255, 0.45) 0%,
-            rgba(199, 125, 255, 0.25) 50%,
+            rgba(255, 255, 255, 0.22) 0%,
+            rgba(157, 78, 221, 0.15) 60%,
             transparent 100%
           );
         }
@@ -108,11 +122,12 @@ const AIChatButton = () => {
           position: absolute; border-radius: 50%;
           border: 1px solid transparent; pointer-events: none;
         }
-        .ai-ring-1 { inset: -3px; border-color: rgba(199, 125, 255, 0.6); animation: ai-pulse-ring 2.8s ease-out infinite; }
-        .ai-ring-2 { inset: -3px; border-color: rgba(157, 78, 221, 0.45); animation: ai-pulse-ring 2.8s ease-out infinite 1.4s; }
+        /* Amplified opacity and alternative high-intensity tones for the halo signals */
+        .ai-ring-1 { inset: -3px; border-color: rgba(247, 37, 133, 0.8); animation: ai-pulse-ring 2.8s ease-out infinite; }
+        .ai-ring-2 { inset: -3px; border-color: rgba(76, 201, 240, 0.6); animation: ai-pulse-ring 2.8s ease-out infinite 1.4s; }
         @keyframes ai-pulse-ring {
-          0%   { transform: scale(1);   opacity: 0.85; }
-          100% { transform: scale(2.3); opacity: 0; }
+          0%   { transform: scale(1);   opacity: 0.95; }
+          100% { transform: scale(2.4); opacity: 0; }
         }
       `}</style>
     </>
