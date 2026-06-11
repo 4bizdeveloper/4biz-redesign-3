@@ -84,8 +84,8 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-6">
           
-          {/* Logo Container with optimized aspect ratios to handle dynamic resizing and zooming */}
-          <Link href="/" className="flex items-center flex-shrink-0 transition-transform duration-300 hover:opacity-90">
+          {/* Logo Container - Replaced Link with <a> to force a refreshed home page load */}
+          <a href="/" className="flex items-center flex-shrink-0 transition-transform duration-300 hover:opacity-90">
             <div className={`relative flex items-center justify-center transition-all duration-300 ${
               isSticky ? 'w-20 h-10 sm:w-24 sm:h-11' : 'w-24 h-12 sm:w-28 sm:h-14'
             }`}>
@@ -98,7 +98,7 @@ export default function Header() {
                 priority
               />
             </div>
-          </Link>
+          </a>
 
           {/* Right side */}
           <div className="flex items-center gap-5 sm:gap-7 flex-shrink-0">
@@ -109,7 +109,7 @@ export default function Header() {
               }`}
             >
               <Link
-                href="#contact"
+                href="/#contact"
                 className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white rounded-full px-6 py-2.5 text-xs uppercase tracking-wider font-semibold transition-all duration-300 shadow-sm hover:shadow-md hover:brightness-110 whitespace-nowrap border border-white/10"
               >
                 Contact Us
@@ -174,18 +174,28 @@ export default function Header() {
             
             {/* LEFT: Navigation Links */}
             <nav className="lg:col-span-6 flex flex-col justify-center space-y-1.5 sm:space-y-3">
+              {/* Home Link explicitly forced as standard <a> anchor layout for fresh reload */}
+              <a
+                href="/"
+                onClick={() => setMenuOpen(false)}
+                className={navLinkClass}
+              >
+                Home
+              </a>
+
               {[
-                { label: 'Home', path: '/' },
-                { label: 'About', path: '/#about' },
+                { label: 'About', path: '/about' },
                 { label: 'Services', path: '/services' },
-                { label: 'Locations', path: '/#map' },
-                { label: 'Contact', path: '/#contact' },
+                { label: 'Contact', path: '/contact' },
                 { label: 'Blogs', path: '/blogs' },
               ].map((item) => (
                 <Link
                   key={item.label}
                   href={item.path}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => {
+                    // Slight delay allows overlay animation to close smoothly before hash scroll hits
+                    setTimeout(() => setMenuOpen(false), 50);
+                  }}
                   className={navLinkClass}
                 >
                   {item.label}
