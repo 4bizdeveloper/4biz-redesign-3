@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import AIChatButton from "@/components/AIChatButton";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import CallButton from "@/components/CallButton";
-
+import FixedCallWhatsappButton from "@/components/FixedCallWhatsappButton";
 
 export const metadata: Metadata = {
   title: "4Biz International LLC | Digital Marketing Agency in Dubai",
@@ -29,8 +29,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         
         {/* Floating Utilities */}
         <AIChatButton />
-        <WhatsAppButton />
-        <CallButton />
+        {/* <WhatsAppButton />
+        <CallButton /> */}
+        <FixedCallWhatsappButton />
         <main className="relative z-10 w-full min-h-screen">
           {children}
         </main>
