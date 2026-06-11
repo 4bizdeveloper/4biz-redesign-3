@@ -90,7 +90,7 @@ export default function Header() {
               isSticky ? 'w-20 h-10 sm:w-24 sm:h-11' : 'w-24 h-12 sm:w-28 sm:h-14'
             }`}>
               <Image
-                src="/4biz_logo-1.png"
+                src={isSticky ? "/4biz-logo-4.png" : "/4biz_logo-3.png"}
                 alt="4biz Logo"
                 fill
                 sizes="(max-width: 640px) 96px, 112px"

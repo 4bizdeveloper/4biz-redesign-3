@@ -3,8 +3,6 @@ import "@/app/globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AIChatButton from "@/components/AIChatButton";
-import WhatsAppButton from "@/components/WhatsAppButton";
-import CallButton from "@/components/CallButton";
 import FixedCallWhatsappButton from "@/components/FixedCallWhatsappButton";
 
 export const metadata: Metadata = {
